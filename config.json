@@ -1,0 +1,13 @@
+{
+    "database": {
+        "provider": "SQLOLEDB",
+        "server": "pvtserver.database.windows.net",
+        "database": "RDN_Billing",
+        "username": "pvtadmin@perfectvirtualteam.com@pvtserver",
+        "password": "Sunny$hill9"
+    },
+    "rdn": {
+        "login_url": "https://secureauth.recoverydatabase.net/public/login",
+        "case_url_template": "https://app.recoverydatabase.net/alpha_rdn/module/default/case2/?case_id={case_id}"
+    }
+}

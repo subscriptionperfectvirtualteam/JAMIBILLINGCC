@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2022-02-14",
+    "details": "Order DateCase #2102831734Ref. Number89321 ClientLocation Services, LLCCollectorGrace SmithLien HolderLANDMARK CREDIT UNIONClient Acct No2092120698 File Folder Labels",
+    "amount": 0.0,
+    "amountStr": "$0.00",
+    "feeType": "Agent",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#36b9cc",
+    "status": "Unknown",
+    "originalText": "Order Date2022-02-14Case #2102831734Ref. Number89321\nClientLocation Services, LLCCollectorGrace SmithLien HolderLANDMARK CREDIT UNIONClient Acct No2092120698\nFile Folder Labels",
+    "page": 1
+  },
+  {
+    "date": "Unknown",
+    "details": "My Summary Print Order Photos / Docs Release Invoices0 Pay Adjuster Reminders0 Office Notes1 Bids / Auction Email / Faxes History Duplicate Case Skiptracing Complaints Client Add Adjuster Adjusters 0 Updates 388 Recovery Forms Loading",
+    "amount": 0.0,
+    "amountStr": "$0.00",
+    "feeType": "Inspection",
+    "feeTypeConfidence": 1,
+    "feeTypeColor": "#6f42c1",
+    "status": "Unknown",
+    "originalText": "My Summary\nPrint Order\n\nPhotos / Docs\n\nRelease\n\nInvoices0\n\nPay Adjuster\n\nReminders0\n\nOffice Notes1\n\nBids / Auction\n\nEmail / Faxes\n\nHistory\n\nDuplicate Case\n\nSkiptracing\n\nComplaints\n\n\n\n\n\n\n\n\nClient  \n\n\nAdd Adjuster  \n\n\nAdjusters 0 \n\n\nUpdates 388 \n\n\nRecovery  \n\n\nForms  \n\n\n\n\n\n\n\n\n\n\n\n\n\n Loading",
+    "page": 1
+  }
+]

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JamiBilling - RDN Fee Scraper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1><i class="fas fa-file-invoice-dollar"></i> JamiBilling</h1>
+            <p>RDN Fee Extraction Tool</p>
+        </header>
+
+        <div id="login-section" class="app-section active">
+            <h2>Login Information</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="security-code">Security Code:</label>
+                    <input type="text" id="security-code" required>
+                </div>
+                <div class="form-group">
+                    <label for="case-id">Case ID:</label>
+                    <input type="text" id="case-id" required>
+                </div>
+                <div class="form-group">
+                    <label for="db-connection">Database Connection String:</label>
+                    <input type="text" id="db-connection" value="Provider=SQLOLEDB;Server=yourserver.database.windows.net;Database=yourdb;User ID=youruser;Password=yourpassword;">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" id="start-process" class="primary-button">
+                        <i class="fas fa-play"></i> Start Process
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="process-section" class="app-section">
+            <h2>Processing</h2>
+            <div class="status-container">
+                <div class="status-indicator">
+                    <div class="progress-bar">
+                        <div id="progress-fill"></div>
+                    </div>
+                    <p id="status-message">Starting process...</p>
+                </div>
+                <div class="status-steps">
+                    <div class="step" id="step-login">
+                        <i class="fas fa-lock"></i>
+                        <span>Login</span>
+                    </div>
+                    <div class="step" id="step-case">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Case Data</span>
+                    </div>
+                    <div class="step" id="step-database">
+                        <i class="fas fa-database"></i>
+                        <span>Database</span>
+                    </div>
+                    <div class="step" id="step-updates">
+                        <i class="fas fa-history"></i>
+                        <span>Updates</span>
+                    </div>
+                    <div class="step" id="step-complete">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Complete</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="cancel-process" class="secondary-button">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+
+        <div id="results-section" class="app-section">
+            <h2>Results for Case #<span id="result-case-id"></span></h2>
+            
+            <div class="results-cards">
+                <div class="result-card">
+                    <h3><i class="fas fa-building"></i> Client Information</h3>
+                    <div class="card-content" id="client-info">
+                        <div class="info-row">
+                            <span class="label">Client Name:</span>
+                            <span class="value" id="client-name">Not found</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Lien Holder:</span>
+                            <span class="value" id="lienholder-name">Not found</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Order To:</span>
+                            <span class="value" id="order-to">Not found</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3><i class="fas fa-database"></i> Database Information</h3>
+                    <div class="card-content" id="db-info">
+                        <div class="info-row">
+                            <span class="label">Fee ID:</span>
+                            <span class="value" id="fee-id">Not found</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Client Name:</span>
+                            <span class="value" id="db-client-name">Not found</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Lien Holder:</span>
+                            <span class="value" id="db-lienholder-name">Not found</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Fee Type:</span>
+                            <span class="value" id="fee-type-name">Not found</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Amount:</span>
+                            <span class="value" id="db-amount">Not found</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-tables">
+                <div class="result-table-container">
+                    <h3><i class="fas fa-dollar-sign"></i> Fees from Case Summary</h3>
+                    <div class="table-container">
+                        <table id="fees-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Fee data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="result-table-container">
+                    <h3><i class="fas fa-history"></i> Updates History</h3>
+                    <div class="table-container">
+                        <table id="updates-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Details</th>
+                                    <th>Fee Type</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Updates data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button id="export-pdf" class="primary-button">
+                    <i class="fas fa-file-pdf"></i> Export PDF
+                </button>
+                <button id="export-excel" class="primary-button">
+                    <i class="fas fa-file-excel"></i> Export Excel
+                </button>
+                <button id="new-search" class="secondary-button">
+                    <i class="fas fa-search"></i> New Search
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 JamiBilling - Version 1.0</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="fee-categories.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

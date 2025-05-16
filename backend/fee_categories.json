@@ -1,0 +1,58 @@
+{
+    "Storage": {
+        "keywords": [
+            "storage fee", "daily storage", "impound fee", "lot fee"
+        ],
+        "color": "#4e73df"
+    },
+    "Repossession": {
+        "keywords": [
+            "repo fee", "recovery fee", "tow fee", "involuntary repo", 
+            "voluntary repo", "close fee", "hook fee", "repossession charge"
+        ],
+        "color": "#e74a3b"
+    },
+    "Transport": {
+        "keywords": [
+            "transport fee", "delivery fee", "tow-in charge", "relocation fee",
+            "flatbed fee", "dolly fee", "mileage", "fuel", "fuel surcharge"
+        ],
+        "color": "#1cc88a"
+    },
+    "Administrative": {
+        "keywords": [
+            "admin fee", "office fee", "processing fee", "key fee", "keys fee",
+            "title fee", "mail fee", "redemption admin fee", "frontend"
+        ],
+        "color": "#f6c23e"
+    },
+    "Agent": {
+        "keywords": [
+            "agent fee", "labor charge", "field visit", "field visit fee", 
+            "drive charge", "attempt fee", "service charge", "finder's fee",
+            "bonus", "incentive"
+        ],
+        "color": "#36b9cc"
+    },
+    "Inspection": {
+        "keywords": [
+            "condition report", "vehicle condition fee", "photo", "photos", 
+            "photo fee", "inspection fee", "cr and photos fee"
+        ],
+        "color": "#6f42c1"
+    },
+    "Compliance": {
+        "keywords": [
+            "personal property fee", "letter fee", "notification fee",
+            "legal fee", "compliance fee"
+        ],
+        "color": "#fd7e14"
+    },
+    "Other": {
+        "keywords": [
+            "other", "lpr", "lpr involuntary repo", "lpr repossession", 
+            "skip repossession"
+        ],
+        "color": "#858796"
+    }
+}

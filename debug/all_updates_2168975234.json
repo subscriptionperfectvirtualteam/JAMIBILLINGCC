@@ -1,0 +1,28 @@
+[
+  {
+    "date": "2025-05-01",
+    "details": "Order DateCase #2168975234Ref. Number185815 ClientPrimeritus- IBEAMCollectorIBEAM IntegrationLien HolderAmerica's Car-Mart Loss Recovery BranchClient Acct No5109258 File Folder Labels",
+    "amount": 0.0,
+    "amountStr": "$0.00",
+    "feeType": "Repossession",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#e74a3b",
+    "status": "Unknown",
+    "originalText": "Order Date2025-05-01Case #2168975234Ref. Number185815\nClientPrimeritus- IBEAMCollectorIBEAM IntegrationLien HolderAmerica's Car-Mart Loss Recovery BranchClient Acct No5109258\nFile Folder Labels",
+    "page": 1,
+    "vehicleYear": "5815",
+    "vehicleMake": "ClientPrimeritus"
+  },
+  {
+    "date": "Unknown",
+    "details": "My Summary Print Order Photos / Docs Release Invoices2 Pay Adjuster Reminders0 Office Notes0 Bids / Auction Email / Faxes History Duplicate Case Skiptracing Complaints Client Add Adjuster Adjusters 1 Updates 74 Recovery Forms Loading",
+    "amount": 0.0,
+    "amountStr": "$0.00",
+    "feeType": "Inspection",
+    "feeTypeConfidence": 1,
+    "feeTypeColor": "#6f42c1",
+    "status": "Unknown",
+    "originalText": "My Summary\nPrint Order\n\nPhotos / Docs\n\nRelease\n\nInvoices2\n\nPay Adjuster\n\nReminders0\n\nOffice Notes0\n\nBids / Auction\n\nEmail / Faxes\n\nHistory\n\nDuplicate Case\n\nSkiptracing\n\nComplaints\n\n\n\n\n\n\n\n\nClient  \n\n\nAdd Adjuster  \n\n\nAdjusters 1 \n\n\nUpdates 74 \n\n\nRecovery  \n\n\nForms  \n\n\n\n\n\n\n\n\n\n\n\n\n\n Loading",
+    "page": 1
+  }
+]
