@@ -14,7 +14,12 @@ import time
 import asyncio
 import decimal
 import traceback
-import pypyodbc as pyodbc
+# Try to import pypyodbc, but gracefully handle if it's not available
+try:
+    import pypyodbc as pyodbc
+except ImportError:
+    logging.warning("pypyodbc module not found, database functionality will be limited")
+    pyodbc = None
 from flask import Flask, render_template, request, jsonify, session, send_file
 from flask_session import Session
 from playwright.async_api import async_playwright
@@ -1471,11 +1476,12 @@ async def async_extract_case_data(case_id):
                             cells = row.find_all(['td', 'th'])
                             if len(cells) >= 2:  # Need at least description and amount
                                 row_text = row.get_text().strip()
-                                # Look for dollar amount in any cell
-                                amount_match = re.search(dollar_pattern, row_text)
-                                if amount_match:
-                                    amount_str = amount_match.group(0)
-                                    amount = float(amount_match.group(1).replace(',', ''))
+                                # Look for dollar amount in any cell using regex approach from rdn_data_scraper.py
+                                dollar_amounts = re.findall(r'\$\d+(?:\.\d+)?', row_text)
+                                if dollar_amounts:
+                                    amount_str = dollar_amounts[0]
+                                    amount = float(dollar_amounts[0].replace('$', '').replace(',', ''))
+                                    logging.info(f"Found dollar amount in row: {amount_str}")
                                     
                                     # Try to extract description
                                     description = ""
@@ -1670,59 +1676,59 @@ async def async_extract_case_data(case_id):
                 # First take a screenshot of the case page before clicking Updates tab
                 await page.screenshot(path=os.path.join('debug', f'before_updates_tab_{case_id}.png'))
                 
-                # Find Updates tab using multiple strategies
-                logging.info("Looking for Updates tab")
+                # Find and click on the "Updates" tab using approach from rdn_data_scraper.py
+                logging.info("Looking for Updates tab...")
                 try:
-                    # Try various selectors for the Updates tab with better logging
-                    update_tab_selectors = [
-                        "a:has-text('Updates')",
-                        "a:has-text('History')",
-                        "#updates-tab", 
-                        "a[href*='updates']",
-                        "a[href*='history']",
-                        "ul.nav-tabs a:nth-child(2)",  # Often the second tab
-                        ".nav-link:has-text('Updates')",
-                        ".tab:has-text('Updates')"
-                    ]
-                    
-                    tab_clicked = False
-                    for selector in update_tab_selectors:
-                        try:
-                            update_link = await page.query_selector(selector)
-                            if update_link:
-                                await update_link.click()
+                    # Try multiple methods to find the Updates tab
+                    updates_tab = await page.query_selector('a:has-text("Updates")')
+                    if updates_tab:
+                        await updates_tab.click()
+                        logging.info("Clicked on Updates tab using a:text selector")
+                    else:
+                        # Try alternate selector
+                        await page.click('text=Updates', exact=True)
+                        logging.info("Clicked on Updates tab using text=Updates selector")
+                except Exception as e:
+                    logging.warning(f"Error clicking Updates tab: {e}. Trying alternate methods...")
+                    try:
+                        # Try finding any tab/navigation elements
+                        nav_items = await page.query_selector_all('a.nav-link, a.tab-link, li.nav-item a')
+                        tab_clicked = False
+                        for item in nav_items:
+                            text = await item.inner_text()
+                            if "update" in text.lower():
+                                await item.click()
+                                logging.info(f"Clicked on tab with text: {text}")
                                 tab_clicked = True
-                                logging.info(f"Clicked Updates tab using selector: {selector}")
                                 break
-                        except Exception as e:
-                            logging.debug(f"Failed to click Updates tab with selector {selector}: {str(e)}")
-                            continue
-                    
-                    if not tab_clicked:
-                        # List all available tabs for debugging
-                        all_tabs = await page.query_selector_all(".nav-link, .nav-item a, .tab, li a")
-                        logging.info(f"Found {len(all_tabs)} potential tabs to try")
-                        
-                        # Save all visible tabs to debug log
-                        tab_texts = []
-                        for i, tab in enumerate(all_tabs):
-                            try:
-                                tab_text = await tab.text_content()
-                                tab_texts.append(f"Tab {i}: '{tab_text}'")
-                                
-                                # Try clicking tabs that look like they might be updates
-                                if tab_text and any(keyword in tab_text.lower() for keyword in ['update', 'history', 'activity', 'log']):
-                                    await tab.click()
-                                    tab_clicked = True
-                                    logging.info(f"Clicked tab with text: {tab_text}")
-                                    break
-                            except Exception as e:
-                                logging.debug(f"Failed to process tab {i}: {str(e)}")
-                        
-                        logging.info(f"Available tabs: {', '.join(tab_texts)}")
                         
                         if not tab_clicked:
-                            logging.warning("Could not find Updates tab, will attempt to find update data on current page")
+                            # List all available tabs for debugging
+                            all_tabs = await page.query_selector_all(".nav-link, .nav-item a, .tab, li a")
+                            logging.info(f"Found {len(all_tabs)} potential tabs to try")
+                            
+                            # Save all visible tabs to debug log
+                            tab_texts = []
+                            for i, tab in enumerate(all_tabs):
+                                try:
+                                    tab_text = await tab.text_content()
+                                    tab_texts.append(f"Tab {i}: '{tab_text}'")
+                                    
+                                    # Try clicking tabs that look like they might be updates
+                                    if tab_text and any(keyword in tab_text.lower() for keyword in ['update', 'history', 'activity', 'log']):
+                                        await tab.click()
+                                        tab_clicked = True
+                                        logging.info(f"Clicked tab with text: {tab_text}")
+                                        break
+                                except Exception as e:
+                                    logging.debug(f"Failed to process tab {i}: {str(e)}")
+                            
+                            logging.info(f"Available tabs: {', '.join(tab_texts)}")
+                            
+                            if not tab_clicked:
+                                logging.warning("Could not find Updates tab, will attempt to find update data on current page")
+                    except Exception as e2:
+                        logging.error(f"Failed to find Updates tab: {e2}")
                 
                 except Exception as e:
                     logging.warning(f"Error finding Updates tab: {str(e)}")
@@ -1737,7 +1743,202 @@ async def async_extract_case_data(case_id):
                     await page.wait_for_timeout(3000)
                 await page.screenshot(path=os.path.join('debug', f'updates_tab_{case_id}.png'))
                 
-                # Function to extract updates from the current page
+                # Store the current state in session for debugging
+                session['current_page'] = 'updates_tab'
+                
+                # Click on "ALL" in pagination if it exists - using approach from rdn_data_scraper.py
+                logging.info("Looking for the ALL pagination button...")
+                try:
+                    # Wait for the pagination to be visible first
+                    await page.wait_for_selector('nav[aria-label="Updates pagination"]', timeout=5000)
+                    
+                    # Use the exact selector from the provided HTML
+                    all_link = await page.query_selector('li.page-item a.page-link[data-page="ALL"]')
+                    if all_link:
+                        await all_link.click()
+                        logging.info("Clicked on 'ALL' pagination button")
+                        all_button_found = True
+                    else:
+                        # Try a more general selector
+                        all_link = await page.query_selector('a.page-link[data-page="ALL"]')
+                        if all_link:
+                            await all_link.click()
+                            logging.info("Clicked on 'ALL' pagination link (second method)")
+                            all_button_found = True
+                        else:
+                            # Try by text content
+                            all_link = await page.query_selector('a.page-link:has-text("ALL")')
+                            if all_link:
+                                await all_link.click()
+                                logging.info("Clicked on 'ALL' pagination link (text method)")
+                                all_button_found = True
+                            else:
+                                # Last attempt using a direct click
+                                await page.click('text=ALL', exact=True)
+                                logging.info("Clicked on 'ALL' text (fallback method)")
+                                all_button_found = True
+                    
+                    # Wait for page to update after clicking ALL
+                    await page.wait_for_load_state('networkidle', timeout=15000)
+                    logging.info("Page loaded after clicking ALL")
+                    
+                    # Take screenshot after clicking ALL
+                    await page.screenshot(path=os.path.join('debug', f'after_all_button_click_{case_id}.png'))
+                    
+                    # After clicking ALL and page is loaded, we'll use the centralized extraction logic
+                    # We no longer need to perform extraction here as it's done in the main workflow
+                    logging.info("ALL pagination button clicked - extraction will be handled in main workflow")
+                    
+                except Exception as e:
+                    logging.warning(f"'ALL' pagination link not found or not clickable: {e}")
+                    # Fall back to original approach
+                    logging.info("Falling back to original approach for 'All' button")
+                    all_button_found = False
+                    all_button_selectors = [
+                        "a:has-text('All')",
+                        "button:has-text('All')",
+                        ".pagination a:has-text('All')",
+                        ".page-item:has-text('All')",
+                        "li:has-text('All') a",
+                        "[data-page='all']",
+                        "a[href*='all']",
+                        ".show-all-button",
+                        ".view-all"
+                    ]
+                    
+                    for selector in all_button_selectors:
+                        try:
+                            all_button = await page.query_selector(selector)
+                            if all_button:
+                                logging.info(f"Found 'All' button with selector: {selector}")
+                                await page.screenshot(path=os.path.join('debug', f'before_all_button_click_{case_id}.png'))
+                                
+                                # Click the All button
+                                await all_button.click()
+                                logging.info("Clicked 'All' button")
+                                
+                                # Wait for all updates to load
+                                try:
+                                    await page.wait_for_load_state("networkidle", timeout=20000)  # Longer timeout for all updates
+                                    logging.info("All updates loaded successfully")
+                                except Exception as e:
+                                    logging.warning(f"Timeout waiting for 'All' updates to load, continuing anyway: {str(e)}")
+                                    # Wait a longer time anyway since "All" could be a lot of data
+                                    await page.wait_for_timeout(5000)
+                                
+                                await page.screenshot(path=os.path.join('debug', f'after_all_button_click_{case_id}.png'))
+                                all_button_found = True
+                                break
+                        except Exception as e:
+                            logging.debug(f"Failed to interact with 'All' button using selector {selector}: {str(e)}")
+                
+                if all_button_found:
+                    logging.info("Using 'All' view for update extraction")
+                
+                # Function to extract updates using the rdn_data_scraper approach for direct page element access
+                async def extract_dollar_records_with_playwright():
+                    """
+                    This function implements the exact extraction logic from rdn_data_scraper.py
+                    It directly extracts dollar records from the page using Playwright's query_selector_all
+                    """
+                    logging.info("Starting dollar records extraction using rdn_data_scraper logic")
+                    
+                    # Wait for the updates to load (same timeout as in rdn_data_scraper.py)
+                    await asyncio.sleep(3)
+                    logging.info("Waiting for all updates to load...")
+                    await asyncio.sleep(5)
+                    
+                    # Find all update sections using dl elements (same as rdn_data_scraper.py)
+                    logging.info("Collecting update data using direct page query...")
+                    dl_elements = await page.query_selector_all("dl")
+                    logging.info(f"Found {len(dl_elements)} update sections")
+                    
+                    dollar_records = []
+                    
+                    # Process each update section
+                    for dl in dl_elements:
+                        try:
+                            # Check if this dl contains details with dollar sign
+                            details_element = await dl.query_selector(".update-text-black")
+                            if not details_element:
+                                # Try finding by ID that ends with _view_comments
+                                details_elements = await dl.query_selector_all("dd[id]")
+                                for element in details_elements:
+                                    element_id = await element.get_attribute('id')
+                                    if element_id and element_id.endswith('_view_comments'):
+                                        details_element = element
+                                        break
+                                        
+                            if not details_element:
+                                # Try finding by div.row containing dt with text "Details"
+                                dt_elements = await dl.query_selector_all('dt')
+                                for dt in dt_elements:
+                                    text = await dt.inner_text()
+                                    if text == "Details":
+                                        parent_row = await dt.evaluate_handle("node => node.closest('div.row')")
+                                        if parent_row:
+                                            details_element = await parent_row.query_selector('dd')
+                                            break
+                                        
+                            if not details_element:
+                                continue
+                                
+                            details_text = await details_element.inner_text()
+                            
+                            # Only process records containing dollar sign
+                            if '$' in details_text:
+                                # Create a record by extracting all required data
+                                record = {
+                                    "details": details_text,
+                                    "dollar_amount": re.findall(r'\$\d+(?:\.\d+)?', details_text)
+                                }
+                                
+                                # Try to get data from the structured rows
+                                try:
+                                    row_elements = await dl.query_selector_all("div.row div.col")
+                                    for col in row_elements:
+                                        dt = await col.query_selector("dt")
+                                        if not dt:
+                                            continue
+                                            
+                                        label_text = await dt.inner_text()
+                                        dd = await col.query_selector("dd")
+                                        if dd:
+                                            value_text = await dd.inner_text()
+                                            
+                                            # Convert label to snake_case for JSON keys
+                                            key = label_text.lower().replace(' ', '_').replace('/', '_')
+                                            record[key] = value_text
+                                except Exception as row_error:
+                                    logging.warning(f"Error extracting from row structure: {row_error}")
+                                    
+                                    # Fallback: Extract other data points using dt/dd pairs directly
+                                    dt_elements = await dl.query_selector_all("dt")
+                                    for dt in dt_elements:
+                                        label_text = await dt.inner_text()
+                                        if label_text in ["Saved to RDN", "Last Updated By", "Update Date/Time", "Company", "Update Type"]:
+                                            # Find corresponding dd element (next sibling)
+                                            dd = await dt.evaluate_handle("node => node.nextElementSibling")
+                                            if dd:
+                                                value_text = await dd.inner_text()
+                                                
+                                                # Convert label to snake_case for JSON keys
+                                                key = label_text.lower().replace(' ', '_').replace('/', '_')
+                                                record[key] = value_text
+                                
+                                dollar_records.append(record)
+                                logging.info(f"Found record with dollar amount: {record.get('dollar_amount', 'unknown')}")
+                        
+                        except Exception as e:
+                            logging.error(f"Error processing a section: {e}")
+                            continue
+                    
+                    logging.info(f"Extracted {len(dollar_records)} dollar records using direct page query")
+                    return dollar_records
+                
+                # Original implementation is commented out as we now use the rdn_data_scraper approach
+                # Function to extract updates from the current page (original implementation)
+                '''
                 async def extract_updates_from_page(page_num=1):
                     # Extract page content
                     updates_content = await page.content()
@@ -1749,43 +1950,118 @@ async def async_extract_case_data(case_id):
                     # Take screenshot of the current page
                     await page.screenshot(path=os.path.join('debug', f'updates_{case_id}_page{page_num}.png'))
                     
+                    # Add detailed information about the current state
+                    current_url = page.url
+                    logging.info(f"Extracting updates from URL: {current_url}")
+                    
                     # Parse the page content
                     updates_soup = BeautifulSoup(updates_content, 'html.parser')
+                '''
+                
+                # Simplified placeholder function that delegates to the new extraction method
+                async def extract_updates_from_page(page_num=1):
+                    # Just take a screenshot for debugging
+                    await page.screenshot(path=os.path.join('debug', f'updates_{case_id}_page{page_num}.png'))
+                    logging.info(f"Using delegate to extract_dollar_records_with_playwright instead of page {page_num}")
+                    
+                    # Return empty list as we're now using extract_dollar_records_with_playwright
+                    return []
+                    
+                    '''
+                    # DIRECT SELECTION: For 'All' view with specific selectors
+                    # Look for specific update row elements that might contain fee data
+                    logging.info("Attempting direct selection of update elements")
                     
                     # Find update elements using multiple strategies
                     update_elements = []
                     update_details_elements = []  # To store dt/dd pairs with Details
+                    '''
                     
-                    # Strategy 0 (New): Look for dt/dd pairs where dt contains "Details"
-                    # This specifically targets the structure provided in the user's example
-                    dt_elements = updates_soup.find_all('dt', string=lambda s: s and 'Details' in s)
-                    for dt in dt_elements:
-                        # Look for the corresponding dd element which contains the details text
-                        # First try to find a sibling dd
-                        next_elem = dt
-                        while next_elem and next_elem.name != 'dd':
-                            next_elem = next_elem.next_sibling
-                        
-                        # If found a sibling dd, add it
-                        if next_elem and next_elem.name == 'dd':
-                            update_details_elements.append(next_elem)
-                            logging.info(f"Found details dd element as sibling of dt")
-                            continue
+                    # Direct element selection for common update patterns
+                    common_update_selectors = [
+                        "tr.update-row",
+                        "div.update-entry",
+                        "div.history-entry",
+                        ".update-list > div",
+                        ".update-list > li",
+                        ".update-container .row",
+                        ".history-list tr",
+                        "table.updates-table tr:not(:first-child)",  # Skip header row
+                        ".tab-content tr:not(.header-row)",  # Skip header row
+                        "dl.update-details",  # For dt/dd structured content
+                        ".update-item"
+                    ]
+                    
+                    logging.info("Looking for update elements with direct selectors")
+                    direct_elements_found = 0
+                    
+                    for selector in common_update_selectors:
+                        try:
+                            elements = updates_soup.select(selector)
+                            if elements:
+                                update_elements.extend(elements)
+                                direct_elements_found += len(elements)
+                                logging.info(f"Found {len(elements)} update elements with selector: {selector}")
+                        except Exception as e:
+                            logging.warning(f"Error finding elements with selector {selector}: {str(e)}")
+                    
+                    logging.info(f"Total direct elements found: {direct_elements_found}")
+                    
+                        # Strategy 0 (New): Look for dl elements and extract details following rdn_data_scraper.py approach
+                    dl_elements = updates_soup.find_all("dl")
+                    logging.info(f"Found {len(dl_elements)} dl elements for updates")
+                    
+                    for dl in dl_elements:
+                        try:
+                            # Check if this dl contains details with dollar sign
+                            details_element = dl.select_one(".update-text-black")
+                            if not details_element:
+                                # Try finding by ID that ends with _view_comments
+                                for element in dl.find_all("dd", id=True):
+                                    element_id = element.get('id')
+                                    if element_id and element_id.endswith('_view_comments'):
+                                        details_element = element
+                                        break
+                                        
+                            if not details_element:
+                                # Try finding by div.row containing dt with text "Details"
+                                dt_elements = dl.find_all('dt')
+                                for dt in dt_elements:
+                                    if dt.get_text().strip() == "Details":
+                                        # Find closest div.row parent
+                                        parent_row = dt.find_parent('div', class_='row')
+                                        if parent_row:
+                                            details_element = parent_row.find('dd')
+                                            break
+                                            
+                            if not details_element:
+                                # Try original approach for dt/dd pairs
+                                dt_elements = dl.find_all('dt', string=lambda s: s and 'Details' in s)
+                                for dt in dt_elements:
+                                    # Look for the corresponding dd element which contains the details text
+                                    # First try to find a sibling dd
+                                    next_elem = dt
+                                    while next_elem and next_elem.name != 'dd':
+                                        next_elem = next_elem.next_sibling
+                                    
+                                    # If found a sibling dd, use it
+                                    if next_elem and next_elem.name == 'dd':
+                                        details_element = next_elem
+                                        break
+                                        
+                                    # If not found as sibling, try to find via parent
+                                    if dt.parent:
+                                        dd_elements = dt.parent.find_all('dd')
+                                        if dd_elements:
+                                            details_element = dd_elements[0]
+                                            break
                             
-                        # If not found as sibling, try to find via parent
-                        if dt.parent:
-                            dd_elements = dt.parent.find_all('dd')
-                            if dd_elements:
-                                update_details_elements.append(dd_elements[0])
-                                logging.info(f"Found details dd element via parent")
-                                continue
-                                
-                        # If still not found, try looking in nearby structure
-                        if dt.parent and dt.parent.parent:
-                            dd_elements = dt.parent.parent.find_all('dd')
-                            if dd_elements:
-                                update_details_elements.append(dd_elements[0])
-                                logging.info(f"Found details dd element via grandparent")
+                            if details_element:
+                                update_details_elements.append(details_element)
+                                logging.info(f"Found details element in dl structure")
+                        except Exception as e:
+                            logging.error(f"Error processing a dl section: {e}")
+                            continue
                     
                     logging.info(f"Found {len(update_details_elements)} dd elements with details content")
                     
@@ -1829,95 +2105,225 @@ async def async_extract_case_data(case_id):
                     # Process all found elements
                     page_updates = []
                     
-                    # Process the special dt/dd pairs with details first (from user example)
-                    for dd_element in update_details_elements:
-                        dd_text = dd_element.get_text().strip()
-                        
-                        # Skip empty elements
-                        if not dd_text:
-                            continue
+                    # MANUAL EXTRACTION FOR DEBUGGING - directly get table content via page.evaluate
+                    try:
+                        logging.info("Attempting direct JavaScript extraction of table data")
+                        updates_table_data = await page.evaluate("""() => {
+                            // Look for tables that could contain updates
+                            const tables = Array.from(document.querySelectorAll('table'));
                             
-                        # Look for the parent container to get additional metadata like date, type, etc.
-                        container = dd_element.find_parent(['dl', 'div', 'section'])
-                        container_text = container.get_text().strip() if container else dd_text
-                        
-                        # Extract date using regex (support multiple formats)
-                        date_match = re.search(r'\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2}', container_text)
-                        date = date_match.group(0) if date_match else "Unknown"
-                        
-                        # Extract update type (if available)
-                        update_type = "Unknown"
-                        update_type_dt = container.find('dt', string=lambda s: s and 'Update Type' in s) if container else None
-                        if update_type_dt:
-                            # Find corresponding dd
-                            next_elem = update_type_dt
-                            while next_elem and next_elem.name != 'dd':
-                                next_elem = next_elem.next_sibling
-                            if next_elem and next_elem.name == 'dd':
-                                update_type = next_elem.get_text().strip()
-                            else:
-                                # Try parent method
-                                if update_type_dt.parent:
-                                    dd_elements = update_type_dt.parent.find_all('dd')
-                                    if dd_elements:
-                                        update_type = dd_elements[0].get_text().strip()
-                        
-                        # Extract fee amount using dollar pattern from the details text
-                        # This is key for the user's example - extract dollar amount from the details
-                        amount_match = re.search(dollar_pattern, dd_text)
-                        amount_str = amount_match.group(0) if amount_match else "$0.00"
-                        amount = float(amount_match.group(1).replace(',', '')) if amount_match else 0.0
-                        
-                        # Only include updates with dollar amounts
-                        if amount > 0:
-                            # Enhanced fee type identification with confidence score
-                            fee_type_info = identify_fee_type(dd_text)
-                            fee_type = fee_type_info["category"]
-                            confidence = fee_type_info["confidence"]
-                            color = fee_type_info["color"]
-                            
-                            # Enhanced fee status detection
-                            fee_status = identify_fee_status(dd_text)
-                            
-                            logging.info(f"Adding update from dt/dd with amount: ${amount:.2f}")
-                            
-                            # Create update entry
-                            update_entry = {
-                                "date": date,
-                                "details": dd_text,
-                                "amount": amount,
-                                "amountStr": amount_str,
-                                "feeType": fee_type,
-                                "feeTypeConfidence": confidence,
-                                "feeTypeColor": color,
-                                "status": fee_status,
-                                "originalText": container_text,
-                                "page": page_num,
-                                "source": "details_dd"
+                            // Find the table most likely to be the updates table
+                            let updatesTable = null;
+                            for (const table of tables) {
+                                const headerText = table.textContent.toLowerCase();
+                                if (headerText.includes('update') || 
+                                    headerText.includes('history') || 
+                                    headerText.includes('date') ||
+                                    headerText.includes('details')) {
+                                    updatesTable = table;
+                                    break;
+                                }
                             }
                             
-                            # Extract additional fee-specific data
-                            # For storage fees
-                            if "storage" in dd_text.lower():
-                                # Look for number of days
-                                days_match = re.search(r'(\d+)\s*days?', dd_text, re.IGNORECASE)
-                                if days_match:
-                                    update_entry["storageDays"] = int(days_match.group(1))
+                            if (!updatesTable) {
+                                return { found: false, message: 'No updates table identified' };
+                            }
+                            
+                            // Extract data from rows
+                            const rows = Array.from(updatesTable.querySelectorAll('tr'));
+                            const headerRow = rows[0]; // Assume first row is header
+                            
+                            // Find column indices
+                            const headerCells = Array.from(headerRow.querySelectorAll('th, td'));
+                            const headers = headerCells.map(cell => cell.textContent.trim().toLowerCase());
+                            
+                            const dateIdx = headers.findIndex(h => h.includes('date'));
+                            const detailsIdx = headers.findIndex(h => h.includes('detail') || h.includes('description'));
+                            const amountIdx = headers.findIndex(h => h.includes('amount') || h.includes('fee') || h.includes('$'));
+                            const typeIdx = headers.findIndex(h => h.includes('type') || h.includes('category'));
+                            
+                            // Extract data from content rows
+                            const data = [];
+                            for (let i = 1; i < rows.length; i++) {
+                                const cells = Array.from(rows[i].querySelectorAll('td, th'));
+                                if (cells.length === 0) continue;
                                 
-                                # Look for daily rate
-                                rate_match = re.search(r'(\$\d+(\.\d{2})?)\s*(?:per|a|each)\s*day', dd_text, re.IGNORECASE)
-                                if rate_match:
-                                    update_entry["dailyRate"] = rate_match.group(1)
+                                const rowData = {
+                                    date: dateIdx >= 0 && cells[dateIdx] ? cells[dateIdx].textContent.trim() : 'Unknown',
+                                    details: detailsIdx >= 0 && cells[detailsIdx] ? cells[detailsIdx].textContent.trim() : '',
+                                    amount: amountIdx >= 0 && cells[amountIdx] ? cells[amountIdx].textContent.trim() : '',
+                                    type: typeIdx >= 0 && cells[typeIdx] ? cells[typeIdx].textContent.trim() : 'Unknown'
+                                };
+                                
+                                // Only include rows that have some content and potential dollar amounts
+                                if (rowData.details && (rowData.amount.includes('$') || rowData.details.includes('$'))) {
+                                    data.push(rowData);
+                                }
+                            }
                             
-                            # For repossession fees
-                            if any(term in dd_text.lower() for term in ["repo", "repossession", "recovery"]):
-                                # Look for vehicle information
-                                vehicle_match = re.search(r'(\d{4})\s+([A-Za-z]+)', dd_text)
-                                if vehicle_match:
-                                    update_entry["vehicleYear"] = vehicle_match.group(1)
-                                    update_entry["vehicleMake"] = vehicle_match.group(2)
+                            return {
+                                found: true,
+                                headers: {
+                                    dateIdx,
+                                    detailsIdx,
+                                    amountIdx,
+                                    typeIdx,
+                                    all: headers
+                                },
+                                data: data,
+                                rowCount: rows.length - 1 // Exclude header
+                            };
+                        }""")
+                        
+                        # Process the directly extracted data if available
+                        if updates_table_data and updates_table_data.get('found'):
+                            logging.info(f"Direct extraction found {len(updates_table_data['data'])} update rows")
+                            logging.info(f"Table headers: {updates_table_data.get('headers', {}).get('all', [])}")
                             
-                            page_updates.append(update_entry)
+                            for row_data in updates_table_data['data']:
+                                # Parse the amount from the text
+                                amount = 0
+                                amount_str = "$0.00"
+                                amount_text = row_data.get('amount', '')
+                                
+                                # Try to extract amount from amount column using regex approach from rdn_data_scraper.py
+                                dollar_amounts = re.findall(r'\$\d+(?:\.\d+)?', amount_text)
+                                
+                                if dollar_amounts:
+                                    amount_str = dollar_amounts[0]
+                                    amount = float(dollar_amounts[0].replace('$', '').replace(',', ''))
+                                    logging.info(f"Found dollar amount in amount column: {amount_str}")
+                                else:
+                                    # Try to find amount in details text
+                                    details_text = row_data.get('details', '')
+                                    details_dollar_amounts = re.findall(r'\$\d+(?:\.\d+)?', details_text)
+                                    if details_dollar_amounts:
+                                        amount_str = details_dollar_amounts[0]
+                                        amount = float(details_dollar_amounts[0].replace('$', '').replace(',', ''))
+                                        logging.info(f"Found dollar amount in details text: {amount_str}")
+                                
+                                # Only include updates with non-zero amounts
+                                if amount > 0:
+                                    # Analyze fee type
+                                    text_for_analysis = f"{row_data.get('details', '')} {row_data.get('type', '')}"
+                                    fee_type_info = identify_fee_type(text_for_analysis)
+                                    fee_status = identify_fee_status(text_for_analysis)
+                                    
+                                    update_entry = {
+                                        "date": row_data.get('date', 'Unknown'),
+                                        "details": row_data.get('details', '').strip(),
+                                        "amount": amount,
+                                        "amountStr": amount_str,
+                                        "feeType": fee_type_info["category"],
+                                        "feeTypeConfidence": fee_type_info["confidence"],
+                                        "feeTypeColor": fee_type_info["color"],
+                                        "status": fee_status,
+                                        "page": page_num,
+                                        "source": "direct_extraction"
+                                    }
+                                    
+                                    page_updates.append(update_entry)
+                            
+                            logging.info(f"Added {len(page_updates)} updates from direct table extraction")
+                    except Exception as e:
+                        logging.warning(f"Error in direct JavaScript extraction: {str(e)}")
+                    
+                    # Continue with regular processing if we didn't get enough updates from direct extraction
+                    if len(page_updates) < 5:
+                        logging.info("Regular processing of update elements")
+                        
+                        # Process the special dt/dd pairs with details first (from user example)
+                        for dd_element in update_details_elements:
+                            dd_text = dd_element.get_text().strip()
+                            
+                            # Skip empty elements
+                            if not dd_text:
+                                continue
+                            
+                            # Look for the parent container to get additional metadata like date, type, etc.
+                            container = dd_element.find_parent(['dl', 'div', 'section'])
+                            container_text = container.get_text().strip() if container else dd_text
+                            
+                            # Extract date using regex (support multiple formats)
+                            date_match = re.search(r'\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2}', container_text)
+                            date = date_match.group(0) if date_match else "Unknown"
+                            
+                            # Extract update type (if available)
+                            update_type = "Unknown"
+                            update_type_dt = container.find('dt', string=lambda s: s and 'Update Type' in s) if container else None
+                            if update_type_dt:
+                                # Find corresponding dd
+                                next_elem = update_type_dt
+                                while next_elem and next_elem.name != 'dd':
+                                    next_elem = next_elem.next_sibling
+                                if next_elem and next_elem.name == 'dd':
+                                    update_type = next_elem.get_text().strip()
+                                else:
+                                    # Try parent method
+                                    if update_type_dt.parent:
+                                        dd_elements = update_type_dt.parent.find_all('dd')
+                                        if dd_elements:
+                                            update_type = dd_elements[0].get_text().strip()
+                            
+                            # Extract dollar amount using regex approach from rdn_data_scraper.py
+                            dollar_amounts = re.findall(r'\$\d+(?:\.\d+)?', dd_text)
+                            amount = 0.0
+                            amount_str = "$0.00"
+                            if dollar_amounts:
+                                amount_str = dollar_amounts[0]
+                                amount = float(dollar_amounts[0].replace('$', '').replace(',', ''))
+                                logging.info(f"Found dollar amount: {amount_str}")
+                            
+                            # Only include updates with dollar amounts
+                            if amount > 0:
+                                # Enhanced fee type identification with confidence score
+                                fee_type_info = identify_fee_type(dd_text)
+                                fee_type = fee_type_info["category"]
+                                confidence = fee_type_info["confidence"]
+                                color = fee_type_info["color"]
+                                
+                                # Enhanced fee status detection
+                                fee_status = identify_fee_status(dd_text)
+                                
+                                logging.info(f"Adding update from dt/dd with amount: ${amount:.2f}")
+                                
+                                # Create update entry
+                                update_entry = {
+                                    "date": date,
+                                    "details": dd_text,
+                                    "amount": amount,
+                                    "amountStr": amount_str,
+                                    "feeType": fee_type,
+                                    "feeTypeConfidence": confidence,
+                                    "feeTypeColor": color,
+                                    "status": fee_status,
+                                    "originalText": container_text,
+                                    "page": page_num,
+                                    "source": "details_dd"
+                                }
+                                
+                                # Extract additional fee-specific data
+                                # For storage fees
+                                if "storage" in dd_text.lower():
+                                    # Look for number of days
+                                    days_match = re.search(r'(\d+)\s*days?', dd_text, re.IGNORECASE)
+                                    if days_match:
+                                        update_entry["storageDays"] = int(days_match.group(1))
+                                    
+                                    # Look for daily rate
+                                    rate_match = re.search(r'(\$\d+(\.\d{2})?)\s*(?:per|a|each)\s*day', dd_text, re.IGNORECASE)
+                                    if rate_match:
+                                        update_entry["dailyRate"] = rate_match.group(1)
+                                
+                                # For repossession fees
+                                if any(term in dd_text.lower() for term in ["repo", "repossession", "recovery"]):
+                                    # Look for vehicle information
+                                    vehicle_match = re.search(r'(\d{4})\s+([A-Za-z]+)', dd_text)
+                                    if vehicle_match:
+                                        update_entry["vehicleYear"] = vehicle_match.group(1)
+                                        update_entry["vehicleMake"] = vehicle_match.group(2)
+                                
+                                page_updates.append(update_entry)
                     
                     # Process other update elements
                     for element in update_elements:
@@ -1935,10 +2341,14 @@ async def async_extract_case_data(case_id):
                         date_match = re.search(r'\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2}', element_text)
                         date = date_match.group(0) if date_match else "Unknown"
                         
-                        # Extract fee amount using dollar pattern
-                        amount_match = re.search(dollar_pattern, element_text)
-                        amount_str = amount_match.group(0) if amount_match else "$0.00"
-                        amount = float(amount_match.group(1).replace(',', '')) if amount_match else 0.0
+                        # Extract dollar amount using regex approach from rdn_data_scraper.py
+                        dollar_amounts = re.findall(r'\$\d+(?:\.\d+)?', element_text)
+                        amount = 0.0
+                        amount_str = "$0.00"
+                        if dollar_amounts:
+                            amount_str = dollar_amounts[0]
+                            amount = float(dollar_amounts[0].replace('$', '').replace(',', ''))
+                            logging.info(f"Found dollar amount: {amount_str}")
                         
                         # Only include updates with dollar amounts
                         if amount > 0:
@@ -1946,8 +2356,8 @@ async def async_extract_case_data(case_id):
                             details = element_text
                             if date_match:
                                 details = details.replace(date_match.group(0), "")
-                            if amount_match:
-                                details = details.replace(amount_match.group(0), "")
+                            if dollar_amounts:
+                                details = details.replace(dollar_amounts[0], "")
                             details = ' '.join(details.split())  # Normalize whitespace
                             
                             # Enhanced fee type identification with confidence score
@@ -2002,145 +2412,354 @@ async def async_extract_case_data(case_id):
                     return page_updates
                 
                 # Extract updates from the first page
-                first_page_updates = await extract_updates_from_page(1)
-                updates.extend(first_page_updates)
-                logging.info(f"Extracted {len(first_page_updates)} updates from page 1")
+                # Instead of processing page by page, we now use the rdn_data_scraper approach
+                logging.info("Using the extract_dollar_records_with_playwright function instead of pagination-based approach")
                 
-                # Handle pagination - look for pagination controls and navigate through all pages
-                pagination_found = False
-                try:
-                    # Check for various pagination elements
-                    pagination_selectors = [
-                        "ul.pagination", 
-                        ".pagination", 
-                        "nav[aria-label='pagination']", 
-                        ".pager",
-                        "div.pages",
-                        ".page-numbers"
-                    ]
+                # Extract dollar records using the new function
+                dollar_records = await extract_dollar_records_with_playwright()
+                
+                # Store the dollar records in session for future use
+                session['dollar_records'] = dollar_records
+                
+                # Save to JSON file just like rdn_data_scraper.py does
+                with open(os.path.join('debug', f'all_updates_{case_id}.json'), 'w') as f:
+                    json.dump(dollar_records, f, indent=4)
+                
+                logging.info(f"Saved {len(dollar_records)} dollar records to session and debug JSON file")
+                
+                # Convert dollar records to update format for backward compatibility
+                updates = []
+                for record in dollar_records:
+                    # Extract data from the record
+                    details = record.get("details", "")
+                    dollar_amounts = record.get("dollar_amount", [])
                     
-                    for selector in pagination_selectors:
-                        pagination = await page.query_selector(selector)
-                        if pagination:
-                            pagination_found = True
-                            logging.info(f"Found pagination with selector: {selector}")
-                            
-                            # Take a screenshot of the pagination area
-                            await page.screenshot(path=os.path.join('debug', f'pagination_{case_id}.png'))
-                            
-                            # Try to find all page number links
-                            page_links = await page.query_selector_all(f"{selector} a, {selector} button")
-                            
-                            if page_links:
-                                logging.info(f"Found {len(page_links)} pagination links")
+                    # Only process records with dollar amounts
+                    if dollar_amounts:
+                        for amount_str in dollar_amounts:
+                            try:
+                                # Convert amount string to float
+                                amount = float(amount_str.replace('$', '').replace(',', ''))
                                 
-                                # First approach: Try to click on numbered pages
-                                page_num = 2  # Start from page 2 since we already processed page 1
-                                max_pages = 20  # Safety limit to prevent infinite loops
+                                # Create update entry compatible with existing code
+                                update_entry = {
+                                    "date": record.get("update_date_time", "Unknown"),
+                                    "details": details,
+                                    "amount": amount,
+                                    "amountStr": amount_str,
+                                    "feeType": "Other",  # Default fee type
+                                    "feeTypeConfidence": 0.5,
+                                    "feeTypeColor": "#858796",  # Default color for "Other"
+                                    "status": "Active",
+                                    "source": "rdn_data_scraper"
+                                }
                                 
-                                while page_num <= max_pages:
-                                    # Try to find and click the link for the current page number
-                                    next_page_clicked = False
-                                    
-                                    # Try multiple ways to find the next page link
-                                    next_page_selectors = [
-                                        f"{selector} a:has-text('{page_num}')",
-                                        f"{selector} button:has-text('{page_num}')",
-                                        f"{selector} li:nth-child({page_num+1}) a",  # +1 because first page is often 1
-                                        f"a[data-page='{page_num}']",
-                                        f"button[data-page='{page_num}']"
-                                    ]
-                                    
-                                    for next_selector in next_page_selectors:
+                                updates.append(update_entry)
+                                logging.info(f"Added update entry with amount: {amount_str}")
+                            except Exception as e:
+                                logging.error(f"Error converting dollar amount '{amount_str}': {e}")
+                
+                logging.info(f"Converted {len(updates)} dollar amounts to update format")
+                
+                # No need to process pagination as we're using the direct approach
+                is_all_view = True  # Mark as "All" view to skip pagination processing
+                is_all_processed = True  # Flag to track if we've already processed the All view
+                
+                # Since we're now using the direct extraction approach, we don't need to check for All view or pagination
+                # REMOVED: Code for checking All view indicators and pagination
+                # This section has been replaced with direct extraction using extract_dollar_records_with_playwright
+                
+                # REMOVED: Pagination handling code
+                # This section has been replaced with direct extraction using extract_dollar_records_with_playwright
+                pagination_found = False  # Keep this variable but skip the pagination logic
+                
+                # REMOVED: Pagination processing code
+                if False:  # Skip the entire pagination block
+                    try:
+                        # Check for various pagination elements
+                        pagination_selectors = [
+                            "ul.pagination", 
+                            ".pagination", 
+                            "nav[aria-label='pagination']", 
+                            ".pager",
+                            "div.pages",
+                            ".page-numbers"
+                        ]
+                    
+                        for selector in pagination_selectors:
+                            pagination = await page.query_selector(selector)
+                            if pagination:
+                                pagination_found = True
+                                logging.info(f"Found pagination with selector: {selector}")
+                                
+                                # Take a screenshot of the pagination area
+                                await page.screenshot(path=os.path.join('debug', f'pagination_{case_id}.png'))
+                                
+                                # Check if an 'All' link exists - we'll prioritize this approach
+                                all_link_selectors = [
+                                    f"{selector} a:has-text('All')",
+                                    f"{selector} button:has-text('All')",
+                                    f"{selector} [data-page='all']",
+                                    f"{selector} a[href*='all']",
+                                    f"{selector} li:has-text('All') a",
+                                    ".view-all-link",
+                                    ".show-all"
+                                ]
+                                
+                                all_link_clicked = False
+                                
+                                # First do a check to avoid duplicate extraction
+                                is_current_page_all = False
+                                for all_indicator in [
+                                    f"{selector} a.active:has-text('All')", 
+                                    f"{selector} button.active:has-text('All')",
+                                    f"{selector} li.active:has-text('All')",
+                                    f"{selector} [data-page='all'].active"
+                                ]:
+                                    try:
+                                        active_all = await page.query_selector(all_indicator)
+                                        if active_all:
+                                            logging.info(f"Current page is already 'All' view (detected with {all_indicator})")
+                                            is_current_page_all = True
+                                            break
+                                    except Exception:
+                                        continue
+                                
+                                # Only click the All link if we're not already on the All page
+                                if not is_current_page_all and not is_all_processed:
+                                    for all_selector in all_link_selectors:
                                         try:
-                                            next_link = await page.query_selector(next_selector)
-                                            if next_link:
-                                                # Click the link
-                                                await next_link.click()
-                                                logging.info(f"Clicked link to page {page_num}")
+                                            all_link = await page.query_selector(all_selector)
+                                            if all_link:
+                                                logging.info(f"Found 'All' link with selector: {all_selector}. Clicking to view all records at once.")
+                                                
+                                                # Take screenshot before clicking
+                                                await page.screenshot(path=os.path.join('debug', f'before_all_click_{case_id}.png'))
+                                                
+                                                await all_link.click()
                                                 
                                                 # Wait for content to update
                                                 try:
-                                                    await page.wait_for_load_state("networkidle", timeout=10000)  # Increased timeout
-                                                    logging.info(f"Pagination to page {page_num} successful")
+                                                    await page.wait_for_load_state("networkidle", timeout=15000)
+                                                    logging.info("All view loaded successfully")
                                                 except Exception as e:
-                                                    logging.warning(f"Timeout waiting for networkidle during pagination, continuing anyway: {str(e)}")
-                                                    # Wait a reasonable time anyway
-                                                    await page.wait_for_timeout(2000)
+                                                    logging.warning(f"Timeout waiting for 'All' view, continuing anyway: {str(e)}")
+                                                    await page.wait_for_timeout(5000)  # Longer wait for All view
                                                 
-                                                # Extract updates from this page
-                                                page_updates = await extract_updates_from_page(page_num)
-                                                updates.extend(page_updates)
-                                                logging.info(f"Extracted {len(page_updates)} updates from page {page_num}")
+                                                # Take screenshot of the All view
+                                                await page.screenshot(path=os.path.join('debug', f'all_view_after_click_{case_id}.png'))
                                                 
-                                                next_page_clicked = True
+                                                # Extract updates from this comprehensive page
+                                                all_updates = await extract_updates_from_page("all")
+                                                updates.extend(all_updates)
+                                                logging.info(f"Extracted {len(all_updates)} updates from 'All' view")
+                                                
+                                                all_link_clicked = True
+                                                is_all_processed = True  # Mark that we've processed the All view
                                                 break
                                         except Exception as e:
-                                            logging.debug(f"Failed to click {next_selector}: {str(e)}")
+                                            logging.debug(f"Failed to click All link with selector {all_selector}: {str(e)}")
+                                else:
+                                    if is_current_page_all:
+                                        logging.info("Current page is already 'All' view - skipping clicking 'All' link")
+                                    if is_all_processed:
+                                        logging.info("Already processed 'All' view earlier - avoiding duplicate extraction")
+                                
+                                # Skip regular pagination if we successfully used the 'All' link or are on All view
+                                if all_link_clicked or is_current_page_all or is_all_processed:
+                                    logging.info("Skipping regular pagination since we're using the 'All' view")
+                                    break
                                     
-                                    # If we couldn't find a numbered link, try "Next" button
-                                    if not next_page_clicked:
-                                        next_btn_selectors = [
-                                            "a:has-text('Next')",
-                                            "button:has-text('Next')",
-                                            ".pagination .next",
-                                            "a[rel='next']",
-                                            "a:has-text('»')"
+                                # Try to find all page number links
+                                page_links = await page.query_selector_all(f"{selector} a, {selector} button")
+                                
+                                if page_links:
+                                    logging.info(f"Found {len(page_links)} pagination links")
+                                    
+                                    # First approach: Try to click on numbered pages
+                                    page_num = 2  # Start from page 2 since we already processed page 1
+                                    max_pages = 20  # Safety limit to prevent infinite loops
+                                    
+                                    while page_num <= max_pages:
+                                        # Try to find and click the link for the current page number
+                                        next_page_clicked = False
+                                        
+                                        # Try multiple ways to find the next page link
+                                        next_page_selectors = [
+                                            f"{selector} a:has-text('{page_num}')",
+                                            f"{selector} button:has-text('{page_num}')",
+                                            f"{selector} li:nth-child({page_num+1}) a",  # +1 because first page is often 1
+                                            f"a[data-page='{page_num}']",
+                                            f"button[data-page='{page_num}']"
                                         ]
                                         
-                                        for next_btn in next_btn_selectors:
+                                        for next_selector in next_page_selectors:
                                             try:
-                                                btn = await page.query_selector(next_btn)
-                                                if btn:
-                                                    # Check if disabled
-                                                    disabled = await btn.get_attribute("disabled")
-                                                    aria_disabled = await btn.get_attribute("aria-disabled")
+                                                next_link = await page.query_selector(next_selector)
+                                                if next_link:
+                                                    # Before clicking, check if this will navigate to an "All" page
+                                                    # Some systems have numbered pages like 1,2,3... and then "All"
+                                                    is_all_page = False
+                                                    try:
+                                                        # Check link text or attributes for indications this is an "All" link
+                                                        link_text = await next_link.text_content()
+                                                        link_href = await next_link.get_attribute('href') or ''
+                                                        data_page = await next_link.get_attribute('data-page') or ''
+                                                        
+                                                        if (link_text and 'all' in link_text.lower()) or \
+                                                           ('all' in link_href.lower()) or \
+                                                           (data_page and 'all' in data_page.lower()):
+                                                            logging.info(f"Page {page_num} appears to be an 'All' page, checking if already processed")
+                                                            is_all_page = True
+                                                    except Exception as e:
+                                                        logging.debug(f"Error checking if page {page_num} is an All page: {str(e)}")
                                                     
-                                                    if disabled == "true" or aria_disabled == "true":
-                                                        logging.info("Next button is disabled, reached last page")
-                                                        next_page_clicked = False
+                                                    # Skip if this is an All page and we've already processed All
+                                                    if is_all_page and is_all_processed:
+                                                        logging.info(f"Skipping page {page_num} as it appears to be an 'All' page we've already processed")
+                                                        next_page_clicked = True  # Mark as clicked for pagination to continue
                                                         break
                                                     
-                                                    # Click the Next button
-                                                    await btn.click()
-                                                    logging.info(f"Clicked 'Next' button for page {page_num}")
+                                                    # Click the link
+                                                    await next_link.click()
+                                                    logging.info(f"Clicked link to page {page_num}")
                                                     
                                                     # Wait for content to update
                                                     try:
                                                         await page.wait_for_load_state("networkidle", timeout=10000)  # Increased timeout
-                                                        logging.info(f"Navigation via Next button to page {page_num} successful")
+                                                        logging.info(f"Pagination to page {page_num} successful")
                                                     except Exception as e:
-                                                        logging.warning(f"Timeout waiting for networkidle during Next button pagination, continuing anyway: {str(e)}")
+                                                        logging.warning(f"Timeout waiting for networkidle during pagination, continuing anyway: {str(e)}")
                                                         # Wait a reasonable time anyway
                                                         await page.wait_for_timeout(2000)
                                                     
-                                                    # Extract updates from this page
-                                                    page_updates = await extract_updates_from_page(page_num)
-                                                    updates.extend(page_updates)
-                                                    logging.info(f"Extracted {len(page_updates)} updates from page {page_num} via Next button")
+                                                    # Check if we landed on an "All" page after clicking
+                                                    post_click_is_all = False
+                                                    try:
+                                                        for all_indicator in [
+                                                            "a.active:has-text('All')", 
+                                                            "button.active:has-text('All')",
+                                                            "li.active:has-text('All')",
+                                                            "[data-page='all'].active"
+                                                        ]:
+                                                            active_all = await page.query_selector(all_indicator)
+                                                            if active_all:
+                                                                logging.info(f"After clicking page {page_num}, landed on 'All' view")
+                                                                post_click_is_all = True
+                                                                break
+                                                    except Exception:
+                                                        pass
+                                                    
+                                                    # Extract updates if this isn't an All page we've already processed
+                                                    if not (post_click_is_all and is_all_processed):
+                                                        # Take screenshot of the current page
+                                                        await page.screenshot(path=os.path.join('debug', f'page_{page_num}_{case_id}.png'))
+                                                        
+                                                        # Extract updates from this page
+                                                        page_updates = await extract_updates_from_page(page_num)
+                                                        updates.extend(page_updates)
+                                                        logging.info(f"Extracted {len(page_updates)} updates from page {page_num}")
+                                                        
+                                                        # If this turned out to be an All page, mark it as processed
+                                                        if post_click_is_all:
+                                                            is_all_processed = True
+                                                    else:
+                                                        logging.info(f"Skipping extraction for page {page_num} as it appears to be an 'All' view we've already processed")
                                                     
                                                     next_page_clicked = True
                                                     break
                                             except Exception as e:
-                                                logging.debug(f"Failed to click Next button {next_btn}: {str(e)}")
-                                    
-                                    # If we couldn't click any pagination element, we're done
-                                    if not next_page_clicked:
-                                        logging.info(f"No more pagination links available after page {page_num-1}")
-                                        break
-                                    
-                                    # Move to next page
-                                    page_num += 1
-                            else:
-                                logging.info("Found pagination container but no page links")
-                            
-                            break  # Exit the pagination selector loop
+                                                logging.debug(f"Failed to click {next_selector}: {str(e)}")
+                                        
+                                        # If we couldn't find a numbered link, try "Next" button
+                                        if not next_page_clicked:
+                                            next_btn_selectors = [
+                                                "a:has-text('Next')",
+                                                "button:has-text('Next')",
+                                                ".pagination .next",
+                                                "a[rel='next']",
+                                                "a:has-text('»')"
+                                            ]
+                                            
+                                            for next_btn in next_btn_selectors:
+                                                try:
+                                                    btn = await page.query_selector(next_btn)
+                                                    if btn:
+                                                        # Check if disabled
+                                                        disabled = await btn.get_attribute("disabled")
+                                                        aria_disabled = await btn.get_attribute("aria-disabled")
+                                                        
+                                                        if disabled == "true" or aria_disabled == "true":
+                                                            logging.info("Next button is disabled, reached last page")
+                                                            next_page_clicked = False
+                                                            break
+                                                        
+                                                        # Click the Next button
+                                                        await btn.click()
+                                                        logging.info(f"Clicked 'Next' button for page {page_num}")
+                                                        
+                                                        # Wait for content to update
+                                                        try:
+                                                            await page.wait_for_load_state("networkidle", timeout=10000)  # Increased timeout
+                                                            logging.info(f"Navigation via Next button to page {page_num} successful")
+                                                        except Exception as e:
+                                                            logging.warning(f"Timeout waiting for networkidle during Next button pagination, continuing anyway: {str(e)}")
+                                                            # Wait a reasonable time anyway
+                                                            await page.wait_for_timeout(2000)
+                                                        
+                                                        # Check if we landed on an "All" page after clicking Next
+                                                        post_next_is_all = False
+                                                        try:
+                                                            for all_indicator in [
+                                                                "a.active:has-text('All')", 
+                                                                "button.active:has-text('All')",
+                                                                "li.active:has-text('All')",
+                                                                "[data-page='all'].active"
+                                                            ]:
+                                                                active_all = await page.query_selector(all_indicator)
+                                                                if active_all:
+                                                                    logging.info(f"After clicking Next button for page {page_num}, landed on 'All' view")
+                                                                    post_next_is_all = True
+                                                                    break
+                                                        except Exception:
+                                                            pass
+                                                        
+                                                        # Extract updates if this isn't an All page we've already processed
+                                                        if not (post_next_is_all and is_all_processed):
+                                                            # Extract updates from this page
+                                                            page_updates = await extract_updates_from_page(page_num)
+                                                            updates.extend(page_updates)
+                                                            logging.info(f"Extracted {len(page_updates)} updates from page {page_num} via Next button")
+                                                            
+                                                            # If this turned out to be an All page, mark it as processed
+                                                            if post_next_is_all:
+                                                                is_all_processed = True
+                                                        else:
+                                                            logging.info(f"Skipping extraction for Next button page {page_num} as it appears to be an 'All' view we've already processed")
+                                                        
+                                                        next_page_clicked = True
+                                                        break
+                                                except Exception as e:
+                                                    logging.debug(f"Failed to click Next button {next_btn}: {str(e)}")
+                                        
+                                        # If we couldn't click any pagination element, we're done
+                                        if not next_page_clicked:
+                                            logging.info(f"No more pagination links available after page {page_num-1}")
+                                            break
+                                        
+                                        # Move to next page
+                                        page_num += 1
+                                else:
+                                    logging.info("Found pagination container but no page links")
+                                
+                                break  # Exit the pagination selector loop
                     
-                    if not pagination_found:
-                        logging.info("No pagination controls found, all updates are on a single page")
-                    
-                except Exception as e:
-                    logging.warning(f"Error handling pagination: {str(e)}")
+                        if not pagination_found:
+                            logging.info("No pagination controls found, all updates are on a single page")
+                    except Exception as e:
+                        logging.warning(f"Error handling pagination: {str(e)}")
+                else:
+                    logging.info("Skipping pagination processing as we are already on 'All' view")
                 
                 # Process and analyze the collected updates
                 if updates:
@@ -2248,6 +2867,20 @@ def lookup_repo_fee(client_name, lienholder_name, fee_type_name):
     """
     logging.info(f'Looking up repo fee for: Client="{client_name}", Lienholder="{lienholder_name}", FeeType="{fee_type_name}"')
 
+    # Check if pyodbc is available
+    if pyodbc is None:
+        logging.warning("Database functionality is disabled because pypyodbc module is not installed")
+        # Return a mock result when database is not available
+        return {
+            'fd_id': f"MOCK-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}",
+            'client_name': client_name,
+            'lienholder_name': lienholder_name,
+            'fee_type': fee_type_name,
+            'amount': 350.00,
+            'is_fallback': True,
+            'message': "Database functionality is disabled. Using default amount."
+        }
+
     # Make sure we're using the correct variable names
     case_client_name = client_name
     case_lienholder_name = lienholder_name
@@ -2263,11 +2896,40 @@ def lookup_repo_fee(client_name, lienholder_name, fee_type_name):
         username = db_config['username']
         password = db_config['password']
         
-        # Build a proper pyodbc connection string
-        conn_str = f"DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}"
-        logging.info(f"Connecting to database: {server}/{database}")
+        # Build a proper pyodbc connection string specifically for Azure SQL Database
+        # Try several possible driver names that might exist on the system
+        driver_names = [
+            "{ODBC Driver 18 for SQL Server}",
+            "{ODBC Driver 17 for SQL Server}",
+            "{SQL Server Native Client 11.0}",
+            "{SQL Server}",
+            "{FreeTDS}"
+        ]
         
-        # Connect to the database
+        # Default connection string in case all attempts fail
+        conn_str = None
+        
+        # Try connection with each driver
+        for driver in driver_names:
+            try:
+                test_conn_str = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
+                logging.info(f"Attempting connection with driver: {driver}")
+                pyodbc.connect(test_conn_str)
+                conn_str = test_conn_str
+                logging.info(f"Successfully connected using driver: {driver}")
+                break
+            except Exception as driver_e:
+                logging.warning(f"Failed to connect with driver {driver}: {str(driver_e)}")
+        
+        # If none of the drivers worked, use the last attempted connection string
+        if conn_str is None:
+            conn_str = f"DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};"
+            logging.warning("All driver attempts failed. Using basic connection string as last resort.")
+            
+        # Log the final connection attempt
+        logging.info(f"Attempting final database connection to: {server}/{database}")
+        
+        # Connect to the database using the most appropriate connection string found
         conn = pyodbc.connect(conn_str)
     except Exception as e:
         logging.error(f"Could not connect to database: {str(e)}")
@@ -2276,31 +2938,128 @@ def lookup_repo_fee(client_name, lienholder_name, fee_type_name):
     try:
         cursor = conn.cursor()
 
-        # Step 1: Get foreign keys from names
-        logging.info("Getting foreign keys from names...")
-        cursor.execute("SELECT TOP 1 id FROM dbo.RDN_Client WHERE client_name = ?", case_client_name)
-        client_row = cursor.fetchone()
-        if not client_row:
-            logging.warning(f"Client '{case_client_name}' not found in database")
+        # Step 1: Get foreign keys from names with enhanced diagnostics
+        logging.info("Getting foreign keys from names with enhanced diagnostics...")
+        
+        # Check the database structure first to ensure tables exist
+        try:
+            cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'")
+            tables = cursor.fetchall()
+            table_names = [table[0] for table in tables]
+            logging.info(f"Database tables found: {', '.join(table_names[:10])}")
+            
+            # Check if our required tables exist
+            required_tables = ['RDN_Client', 'Lienholder', 'FeeType', 'FeeDetails2']
+            missing_tables = [table for table in required_tables if table not in table_names]
+            if missing_tables:
+                logging.error(f"Required tables missing: {', '.join(missing_tables)}")
+        except Exception as schema_e:
+            logging.warning(f"Could not check schema: {str(schema_e)}")
+        
+        # Get client ID - try exact match first, then partial match
+        try:
+            cursor.execute("SELECT TOP 1 id FROM dbo.RDN_Client WHERE client_name = ?", [case_client_name])
+            client_row = cursor.fetchone()
+            
+            if not client_row:
+                logging.warning(f"Client '{case_client_name}' not found with exact match, trying partial match...")
+                # Show sample clients for debugging
+                cursor.execute("SELECT TOP 5 id, client_name FROM dbo.RDN_Client")
+                sample_clients = cursor.fetchall()
+                if sample_clients:
+                    logging.info(f"Sample clients in database: {', '.join([c[1] for c in sample_clients])}")
+                
+                # Try partial match using keywords from client name
+                client_keywords = case_client_name.split()
+                if len(client_keywords) > 1:
+                    partial_name = f"%{client_keywords[0]}%{client_keywords[1]}%"
+                    cursor.execute("SELECT TOP 1 id, client_name FROM dbo.RDN_Client WHERE client_name LIKE ?", [partial_name])
+                    partial_match = cursor.fetchone()
+                    if partial_match:
+                        client_id = partial_match[0]
+                        logging.info(f"Found client via partial match: {partial_match[1]} (ID: {client_id})")
+                    else:
+                        logging.error(f"No client match found for '{case_client_name}', even with partial matching")
+                        return None
+                else:
+                    logging.error(f"Client name too short for effective partial matching: '{case_client_name}'")
+                    return None
+            else:
+                client_id = client_row[0]
+                logging.info(f"Found client via exact match (ID: {client_id})")
+        except Exception as client_e:
+            logging.error(f"Error during client lookup: {str(client_e)}")
             return None
-        client_id = client_row[0]
 
-        # Get lienholder ID
-        cursor.execute("SELECT TOP 1 id FROM dbo.Lienholder WHERE lienholder_name = ?", case_lienholder_name)
-        lienholder_row = cursor.fetchone()
-        if not lienholder_row:
-            logging.warning(f"Lienholder '{case_lienholder_name}' not found in database")
+        # Get lienholder ID - try exact match first, then partial match
+        try:
+            cursor.execute("SELECT TOP 1 id FROM dbo.Lienholder WHERE lienholder_name = ?", [case_lienholder_name])
+            lienholder_row = cursor.fetchone()
+            
+            if not lienholder_row:
+                logging.warning(f"Lienholder '{case_lienholder_name}' not found with exact match, trying partial match...")
+                # Show sample lienholders for debugging
+                cursor.execute("SELECT TOP 5 id, lienholder_name FROM dbo.Lienholder")
+                sample_lienholders = cursor.fetchall()
+                if sample_lienholders:
+                    logging.info(f"Sample lienholders in database: {', '.join([lh[1] for lh in sample_lienholders])}")
+                
+                # Try partial match using keywords from lienholder name
+                lienholder_keywords = case_lienholder_name.split()
+                if lienholder_keywords:
+                    partial_name = f"%{lienholder_keywords[0]}%"
+                    cursor.execute("SELECT TOP 1 id, lienholder_name FROM dbo.Lienholder WHERE lienholder_name LIKE ?", [partial_name])
+                    partial_match = cursor.fetchone()
+                    if partial_match:
+                        lienholder_id = partial_match[0]
+                        logging.info(f"Found lienholder via partial match: {partial_match[1]} (ID: {lienholder_id})")
+                    else:
+                        logging.warning(f"No lienholder match found for '{case_lienholder_name}', will use Standard fallback")
+                        lienholder_id = None  # We'll handle this in the fallback logic
+                else:
+                    logging.warning(f"Lienholder name too short for effective partial matching: '{case_lienholder_name}'")
+                    lienholder_id = None  # We'll handle this in the fallback logic
+            else:
+                lienholder_id = lienholder_row[0]
+                logging.info(f"Found lienholder via exact match (ID: {lienholder_id})")
+        except Exception as lienholder_e:
+            logging.error(f"Error during lienholder lookup: {str(lienholder_e)}")
             lienholder_id = None  # We'll handle this in the fallback logic
-        else:
-            lienholder_id = lienholder_row[0]
 
-        # Get fee type ID
-        cursor.execute("SELECT TOP 1 id FROM dbo.FeeType WHERE fee_type_name = ?", case_repo_type)
-        fee_type_row = cursor.fetchone()
-        if not fee_type_row:
-            logging.warning(f"Fee type '{case_repo_type}' not found in database")
+        # Get fee type ID - try exact match first, then partial match
+        try:
+            cursor.execute("SELECT TOP 1 id FROM dbo.FeeType WHERE fee_type_name = ?", [case_repo_type])
+            fee_type_row = cursor.fetchone()
+            
+            if not fee_type_row:
+                logging.warning(f"Fee type '{case_repo_type}' not found with exact match, trying partial match...")
+                # Show sample fee types for debugging
+                cursor.execute("SELECT TOP 5 id, fee_type_name FROM dbo.FeeType")
+                sample_fee_types = cursor.fetchall()
+                if sample_fee_types:
+                    logging.info(f"Sample fee types in database: {', '.join([ft[1] for ft in sample_fee_types])}")
+                
+                # Try partial match with keywords - 'Involuntary Repo' should match 'Involuntary' or 'Repo'
+                fee_keywords = case_repo_type.split()
+                if fee_keywords:
+                    partial_name = f"%{fee_keywords[0]}%"
+                    cursor.execute("SELECT TOP 1 id, fee_type_name FROM dbo.FeeType WHERE fee_type_name LIKE ?", [partial_name])
+                    partial_match = cursor.fetchone()
+                    if partial_match:
+                        fee_type_id = partial_match[0]
+                        logging.info(f"Found fee type via partial match: {partial_match[1]} (ID: {fee_type_id})")
+                    else:
+                        logging.error(f"No fee type match found for '{case_repo_type}', even with partial matching")
+                        return None
+                else:
+                    logging.error(f"Fee type name too short for effective partial matching: '{case_repo_type}'")
+                    return None
+            else:
+                fee_type_id = fee_type_row[0]
+                logging.info(f"Found fee type via exact match (ID: {fee_type_id})")
+        except Exception as fee_type_e:
+            logging.error(f"Error during fee type lookup: {str(fee_type_e)}")
             return None
-        fee_type_id = fee_type_row[0]
 
         # Step 2: Check if a matching record exists and return it if found (primary logic)
         if lienholder_id:
@@ -2323,7 +3082,7 @@ def lookup_repo_fee(client_name, lienholder_name, fee_type_name):
             row = cursor.fetchone()
 
             if row:
-                logging.info(f"Found matching fee record for specific lienholder '{lienholder_name}'")
+                logging.info(f"Found matching fee record for specific lienholder '{case_lienholder_name}'")
                 return {
                     'fd_id': row[0],
                     'client_name': row[1],
@@ -2335,7 +3094,7 @@ def lookup_repo_fee(client_name, lienholder_name, fee_type_name):
 
         # Step 3: If no record found, try with 'Standard' lienholder (fallback logic)
         logging.info(f"No specific record found. Looking up 'Standard' lienholder as fallback...")
-        cursor.execute("SELECT TOP 1 id FROM dbo.Lienholder WHERE lienholder_name = 'Standard'")
+        cursor.execute("SELECT TOP 1 id FROM dbo.Lienholder WHERE lienholder_name = ?", ['Standard'])
         standard_row = cursor.fetchone()
 
         if not standard_row:
@@ -2588,6 +3347,11 @@ def get_results():
     else:
         db_data = session.get('db_data')
     
+    # Include dollar records from rdn_data_scraper approach if available
+    dollar_records = session.get('dollar_records', [])
+    if dollar_records:
+        logging.info(f"Including {len(dollar_records)} dollar records in results")
+    
     # Get case data and filter out fees with zero amounts
     case_data = session.get('case_data', {})
     if "fees" in case_data:
@@ -2602,7 +3366,8 @@ def get_results():
         "success": True,
         "caseData": case_data,
         "dbData": db_data,
-        "updates": updates
+        "updates": updates,
+        "dollarRecords": dollar_records  # Include dollar records from rdn_data_scraper approach
     })
 
 @app.route('/api/export/excel', methods=['GET'])
@@ -2936,6 +3701,17 @@ def healthcheck():
         "version": "1.0",
         "timestamp": datetime.datetime.now().isoformat()
     })
+
+@app.route('/api/dollar-records', methods=['GET'])
+def get_dollar_records():
+    """Retrieve dollar records extracted using the rdn_data_scraper approach"""
+    logging.info("Dollar records request received")
+    if 'dollar_records' not in session:
+        logging.error("Dollar records not available")
+        return jsonify({"success": False, "message": "Dollar records not available"})
+    
+    # Return all dollar records
+    return jsonify({"success": True, "data": session.get('dollar_records')})
 
 if __name__ == '__main__':
     # Create necessary directories
