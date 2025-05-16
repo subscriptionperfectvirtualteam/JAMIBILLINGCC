@@ -8,5 +8,9 @@ openpyxl==3.1.2
 Werkzeug==2.2.3
 Jinja2==3.1.2
 requests==2.28.2
-playwright==1.39.0
-streamlit
+streamlit==1.30.0
+pandas==2.0.3
+playwright==1.41.0
+python-xlib
+pyobjc-framework-ApplicationServices; platform_system=="Darwin"
+pyobjc-framework-Quartz; platform_system=="Darwin"

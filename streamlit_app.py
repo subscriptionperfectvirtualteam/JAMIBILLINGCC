@@ -11,13 +11,10 @@ import asyncio
 import datetime
 import logging
 import traceback
-from app_playwright import (
-    async_login, 
-    async_extract_case_data, 
-    lookup_repo_fee, 
-    identify_fee_type, 
-    identify_fee_status
-)
+import subprocess
+import sys
+import threading
+import time
 
 # Configure logging
 logging.basicConfig(
@@ -26,6 +23,87 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
+# Set up page configuration early
+st.set_page_config(
+    page_title="JamiBilling - RDN Fee Scraper",
+    page_icon="💰",
+    layout="wide",
+)
+
+# Add a spinner during browser installation
+browser_spinner_placeholder = st.empty()
+
+# Display a message during Playwright installation
+with browser_spinner_placeholder.container():
+    st.info("Setting up browser automation... This may take a minute during the first run.")
+    progress_bar = st.progress(0)
+
+# Function to install Playwright browsers
+def install_playwright_browser():
+    try:
+        # Check if Playwright browsers need to be installed
+        with browser_spinner_placeholder.container():
+            st.info("Checking for Playwright browsers...")
+            progress_bar.progress(10)
+        
+        # Try to run a simple Playwright operation to check if browsers are installed
+        check_cmd = [sys.executable, "-m", "playwright", "install", "chromium", "--with-deps"]
+        
+        process = subprocess.Popen(check_cmd, 
+                                stdout=subprocess.PIPE, 
+                                stderr=subprocess.PIPE,
+                                text=True)
+        
+        # Update progress while waiting for installation
+        for i in range(20, 100, 5):
+            time.sleep(1)  # Sleep to simulate progress
+            progress_bar.progress(i)
+            
+        stdout, stderr = process.communicate()
+        
+        if process.returncode != 0:
+            logging.error(f"Failed to install Playwright browsers: {stderr}")
+            with browser_spinner_placeholder.container():
+                st.error("Error installing browser automation. Some features may not work properly.")
+                st.code(stderr)
+                progress_bar.progress(100)
+                time.sleep(2)  # Show error for a moment
+        else:
+            with browser_spinner_placeholder.container():
+                st.success("Browser automation ready!")
+                progress_bar.progress(100)
+                time.sleep(1)  # Show success message briefly
+            
+    except Exception as e:
+        logging.error(f"Error during Playwright browser installation: {str(e)}")
+        with browser_spinner_placeholder.container():
+            st.error(f"Error setting up browser automation: {str(e)}")
+            progress_bar.progress(100)
+            time.sleep(2)  # Show error for a moment
+    
+    # Clear the spinner when done
+    browser_spinner_placeholder.empty()
+
+# Run browser installation in a separate thread to not block the UI
+threading.Thread(target=install_playwright_browser).start()
+
+# Wait for the browser installation UI to clear before importing the app_playwright module
+time.sleep(3)
+
+# Now attempt to import from app_playwright
+try:
+    from app_playwright import (
+        async_login, 
+        async_extract_case_data, 
+        lookup_repo_fee, 
+        identify_fee_type, 
+        identify_fee_status
+    )
+    playwright_import_success = True
+except Exception as e:
+    logging.error(f"Error importing app_playwright functions: {str(e)}")
+    playwright_import_success = False
+    
 # Initialize session state if not exists
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
@@ -51,6 +129,8 @@ if 'verification_code' not in st.session_state:
     st.session_state.verification_code = ""
 if 'definitive_client_name' not in st.session_state:
     st.session_state.definitive_client_name = None
+if 'playwright_error' not in st.session_state:
+    st.session_state.playwright_error = None
 
 # Load application config
 try:
@@ -112,6 +192,10 @@ def get_event_loop():
 
 def login_to_rdn():
     """Handle login to RDN using Playwright"""
+    if not playwright_import_success:
+        st.error("Browser automation setup is not complete. Please try reloading the page.")
+        return False
+        
     logging.info("Login request received")
     
     # Create data dictionary for the original function
@@ -127,7 +211,8 @@ def login_to_rdn():
     try:
         # Run the async login function in the event loop
         loop = get_event_loop()
-        success, message = loop.run_until_complete(async_login(data))
+        with st.spinner("Logging in to RDN..."):
+            success, message = loop.run_until_complete(async_login(data))
         
         # If this looks like it might be waiting for a second factor, inform user
         if success is False and "multi-factor" in message.lower():
@@ -144,12 +229,22 @@ def login_to_rdn():
             return False
             
     except Exception as e:
-        logging.exception(f"Error during login: {str(e)}")
-        st.error(f"Error during login: {str(e)}")
+        error_msg = str(e)
+        logging.exception(f"Error during login: {error_msg}")
+        
+        if "Executable doesn't exist" in error_msg:
+            st.session_state.playwright_error = "Browser automation setup is incomplete. Please wait for installation to complete or reload the page."
+            st.error(st.session_state.playwright_error)
+        else:
+            st.error(f"Error during login: {error_msg}")
         return False
 
 def extract_case_data():
     """Extract case data from RDN"""
+    if not playwright_import_success:
+        st.error("Browser automation setup is not complete. Please try reloading the page.")
+        return False
+        
     logging.info("Case data request received")
     
     case_id = st.session_state.case_id
@@ -192,8 +287,12 @@ def extract_case_data():
         error_msg = str(e)
         logging.exception(f"Error extracting case data: {error_msg}")
         
+        # Provide a more user-friendly message for browser-related errors
+        if "Executable doesn't exist" in error_msg:
+            st.session_state.playwright_error = "Browser automation setup is incomplete. Please wait for installation to complete or reload the page."
+            st.error(st.session_state.playwright_error)
         # Provide a more user-friendly message for timeout errors
-        if "Timeout" in error_msg:
+        elif "Timeout" in error_msg:
             st.error("The RDN system is taking too long to respond. Please try again or check RDN status.")
         else:
             st.error(f"Error extracting case data: {error_msg}")
@@ -210,6 +309,19 @@ def auto_fetch_database_fees(case_data=None):
     Returns:
         dict: The database fee data, or None if not found
     """
+    if not playwright_import_success:
+        # Create mock data when database interaction isn't available
+        mock_data = {
+            "fdId": f"DB-MOCK-{case_data.get('caseId', '0000')}",
+            "clientName": case_data.get('clientName', 'Unknown Client'),
+            "lienholderName": case_data.get('lienHolder', 'Unknown Lienholder'),
+            "feeTypeName": case_data.get('repoType', 'Involuntary Repo'),
+            "amount": 350.00,
+            "isFallback": True,
+            "message": "Database connectivity unavailable in demo mode."
+        }
+        return mock_data
+        
     # Get case data from session if not provided
     if case_data is None:
         if st.session_state.case_data is None:
@@ -404,6 +516,17 @@ def show_login_page():
     """Show the login form"""
     st.title("JamiBilling - RDN Fee Scraper")
     
+    # Show browser installation error if present
+    if st.session_state.playwright_error:
+        st.warning(st.session_state.playwright_error)
+        if st.button("Clear Error"):
+            st.session_state.playwright_error = None
+            st.experimental_rerun()
+    
+    # Show demo mode warning if Playwright import failed
+    if not playwright_import_success:
+        st.warning("Running in limited demo mode. Browser automation is not available. Some features may not work properly.")
+    
     with st.form("login_form"):
         st.subheader("Login to RDN")
         
@@ -428,9 +551,12 @@ def show_login_page():
         submit = st.form_submit_button("Login & Process Case")
         
         if submit:
-            if login_to_rdn():
-                # Login successful, extract case data
-                extract_case_data()
+            if not playwright_import_success:
+                st.error("Browser automation is not available. Please reload the page or check the console for errors.")
+            else:
+                if login_to_rdn():
+                    # Login successful, extract case data
+                    extract_case_data()
 
 def show_results_page():
     """Show the results after successful login and data extraction"""
@@ -574,12 +700,6 @@ def show_results_page():
 
 def main():
     """Main application flow"""
-    st.set_page_config(
-        page_title="JamiBilling - RDN Fee Scraper",
-        page_icon="💰",
-        layout="wide",
-    )
-    
     # Display appropriate page based on login status
     if not st.session_state.logged_in or st.session_state.case_data is None:
         show_login_page()
