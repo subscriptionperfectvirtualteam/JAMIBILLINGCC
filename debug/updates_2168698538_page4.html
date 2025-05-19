@@ -1828,9 +1828,7 @@ function countLines(pos) {
  $(function() {
 
 	
-						toggleVisible(4240594456);
-														toggleVisible(4237190608);
-							
+																	
 	$('#module_caseupdates_update_date').datepicker({changeMonth:true, changeYear:true, minDate:'01/01/1996'});
 
 	$('#update_edit_agent_reminders').multiselect({
@@ -1871,9 +1869,9 @@ function countLines(pos) {
 
 			<form id="updatesForm" name="updatesform" method="post" action="">
 				<div id="createmode">
-					<input type="hidden" name="case_id" value="2168698538" style="">
-					<input type="hidden" id="updateVisible" name="visible" value="1" style="">
-					<input type="hidden" name="command" style="">
+					<input type="hidden" name="case_id" value="2168698538">
+					<input type="hidden" id="updateVisible" name="visible" value="1">
+					<input type="hidden" name="command">
 
 
 					<div class="row row-cols-4 gy-2">
@@ -1881,16 +1879,16 @@ function countLines(pos) {
 							<label class="form-label" for="event_date">Date/time</label>
 							<div class="row row-cols-4 gx-1">
 								<div class="col">
-								<input name="event_date" value="05/16/2025" id="module_caseupdates_update_date" class="form-control hasDatepicker" maxlength="10" readonly="" style="">
+								<input name="event_date" value="05/16/2025" id="module_caseupdates_update_date" class="form-control hasDatepicker" maxlength="10" readonly="">
 								</div>
 								<div class="col"><select name="Time_Hour" id="theHour" class="form-select ms-1">
 <option value="01">01</option>
 <option value="02">02</option>
 <option value="03">03</option>
-<option value="04" selected="selected">04</option>
+<option value="04">04</option>
 <option value="05">05</option>
 <option value="06">06</option>
-<option value="07">07</option>
+<option value="07" selected="selected">07</option>
 <option value="08">08</option>
 <option value="09">09</option>
 <option value="10">10</option>
@@ -1910,7 +1908,7 @@ function countLines(pos) {
 <option value="09">09</option>
 <option value="10">10</option>
 <option value="11">11</option>
-<option value="12" selected="selected">12</option>
+<option value="12">12</option>
 <option value="13">13</option>
 <option value="14">14</option>
 <option value="15">15</option>
@@ -1930,7 +1928,7 @@ function countLines(pos) {
 <option value="29">29</option>
 <option value="30">30</option>
 <option value="31">31</option>
-<option value="32">32</option>
+<option value="32" selected="selected">32</option>
 <option value="33">33</option>
 <option value="34">34</option>
 <option value="35">35</option>
@@ -2023,7 +2021,7 @@ function countLines(pos) {
 	</div>
 
 <form id="visibleForm" action="" method="" style="display: none;">
-	<input type="hidden" name="visible" id="isVisible" value="0" style="">
+	<input type="hidden" name="visible" id="isVisible" value="Yes">
 </form>
 	<div id="viewmode" class="section">
 		<div class="section__main">
@@ -2085,76 +2083,24 @@ function countLines(pos) {
 		</h1>
 
 									
-																																																					<input type="hidden" id="client_email" value="" style="">
-					<div class=" update_content mb-4" id="updatearea_4240594456">
-						<div id="updateModuleIndividualAlerts_4240594456" class="rdn_alert"></div>
+																																																					<input type="hidden" id="client_email" value="">
+					<div class=" update_content mb-4" id="updatearea_4235154616">
+						<div id="updateModuleIndividualAlerts_4235154616" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
-																																											<button class="btn btn-link js-remove-on-delete js-visible text-danger" onclick="toggleVisibleUpdate(4240594456);">
-									<svg class="svg-inline--fa fa-check fa-w-16" aria-hidden="true" id="isvisibleicon_4240594456" data-active="active" focusable="false" data-prefix="fas" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg><!-- <span class="fas fa-check" aria-hidden="true" id="isvisibleicon_4240594456" data-active="active"></span> Font Awesome fontawesome.com -->
-									<span id="visiblestate_4240594456">Not Visible</span>
+																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4235154616); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
 								</button>
-								<button type="button" class="js-remove-on-delete js-edit btn btn-link" onclick="window.caseModal.load('_module.php?module_id=2&amp;mode=edit&amp;update=4240594456&amp;case_id=' + case_id);"><svg class="svg-inline--fa fa-edit fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"></path></svg><!-- <i class="fas fa-edit"></i> Font Awesome fontawesome.com --> Edit</button>
-								<button type="button" class="js-remove-on-delete js-delete btn btn-link" onclick="window.caseModal.load('_module.php?module_id=2&amp;mode=delete&amp;update=4240594456&amp;case_id=' + case_id);"><svg class="svg-inline--fa fa-trash fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash"></i> Font Awesome fontawesome.com --> Delete</button>
-																													<button type="button" class="btn btn-link" onclick="emailSlider('collector',4240594456); return false;" id="email_client_icon_4240594456"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
-														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4240594456" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																				</div>
-						
-						<div class="user cb update-text-invisible" id="updatedisplaysection_4240594456">
-							<dl>
-								<div class="row row-cols-5">
-									<div class="col">
-										<dt>Saved to RDN</dt>
-										<dd>05/06/2025 10:32 AM</dd>
-									</div>
-									<div class="col">
-										<dt>Last Updated By</dt>
-										<dd>Briana WalkerTriplett (User)</dd>
-									</div>
-									<div class="col">
-										<dt>Update Date/Time</dt>
-										<dd>05/06/2025 10:29 AM</dd>
-									</div>
-									<div class="col">
-										<dt>Company</dt>
-										<dd>RECOVERY NETWORK OF NEVADA, INC.</dd>
-									</div>
-									<div class="col">
-										<dt>Update Type</dt>
-										<dd>(O)Agent-Update</dd>
-									</div>
-																										</div>
-								<div class="row">
-									<dt>Details</dt>
-									<dd class="update-text-black" id="4240594456_view_comments">Debtor called office this morning stating that her car has not worked since Saturday and that the dashboard is completely lit up. Stated that she filed complaint with financer.<br>
-<br>
-- Per the yard: the vehicle already had keys inside of it when it was picked up, the dashboard was completely clear and there were no signs of battery/mechanical issues.<br>
-<br>
-Please note: before debtor got off the phone, she did mention an electrical issue with the vehicle.<br>
-<br>
-callback #: 702-937-9727</dd>
-								</div>
-															</dl>
-						</div>
-					</div>
-											
-																																																					<input type="hidden" id="client_email" value="" style="">
-					<div class=" update_content mb-4" id="updatearea_4237472802">
-						<div id="updateModuleIndividualAlerts_4237472802" class="rdn_alert"></div>
-						<div class="d-flex border-top border-bottom align-items-center mb-2">
-																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4237472802); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
-								</button>
-																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4237472802" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
-																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237472802); return false;" id="email_client_icon_4237472802"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
-														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237472802" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237472802" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237472802)" style="">
+																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4235154616" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
+																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4235154616); return false;" id="email_client_icon_4235154616"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
+														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4235154616" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4235154616" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4235154616)">
 													</div>
 						
-						<div class="service" id="updatedisplaysection_4237472802">
+						<div class="service" id="updatedisplaysection_4235154616">
 							<dl>
 								<div class="row row-cols-5">
 									<div class="col">
 										<dt>Saved to RDN</dt>
-										<dd>05/02/2025 03:41 PM</dd>
+										<dd>05/01/2025 09:32 AM</dd>
 									</div>
 									<div class="col">
 										<dt>Last Updated By</dt>
@@ -2162,7 +2108,7 @@ callback #: 702-937-9727</dd>
 									</div>
 									<div class="col">
 										<dt>Update Date/Time</dt>
-										<dd>05/02/2025 03:41 PM</dd>
+										<dd>05/01/2025 09:32 AM</dd>
 									</div>
 									<div class="col">
 										<dt>Company</dt>
@@ -2175,30 +2121,30 @@ callback #: 702-937-9727</dd>
 																										</div>
 								<div class="row">
 									<dt>Details</dt>
-									<dd class="update-text-success" id="4237472802_view_comments">A 1,789.9k document named 208116RR.pdf has been added to this case.</dd>
+									<dd class="update-text-success" id="4235154616_view_comments">A 26.0k photo named IMG_5042.jpeg has been added to this case.</dd>
 								</div>
 															</dl>
 						</div>
 					</div>
 											
-																																																					<input type="hidden" id="client_email" value="" style="">
-					<div class=" update_content mb-4" id="updatearea_4237472792">
-						<div id="updateModuleIndividualAlerts_4237472792" class="rdn_alert"></div>
+																																																					<input type="hidden" id="client_email" value="">
+					<div class=" update_content mb-4" id="updatearea_4235154578">
+						<div id="updateModuleIndividualAlerts_4235154578" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
-																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4237472792); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
+																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4235154578); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
 								</button>
-																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4237472792" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
-																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237472792); return false;" id="email_client_icon_4237472792"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
-														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237472792" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237472792" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237472792)" style="">
+																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4235154578" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
+																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4235154578); return false;" id="email_client_icon_4235154578"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
+														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4235154578" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4235154578" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4235154578)">
 													</div>
 						
-						<div class="service" id="updatedisplaysection_4237472792">
+						<div class="service" id="updatedisplaysection_4235154578">
 							<dl>
 								<div class="row row-cols-5">
 									<div class="col">
 										<dt>Saved to RDN</dt>
-										<dd>05/02/2025 03:41 PM</dd>
+										<dd>05/01/2025 09:32 AM</dd>
 									</div>
 									<div class="col">
 										<dt>Last Updated By</dt>
@@ -2206,7 +2152,7 @@ callback #: 702-937-9727</dd>
 									</div>
 									<div class="col">
 										<dt>Update Date/Time</dt>
-										<dd>05/02/2025 03:41 PM</dd>
+										<dd>05/01/2025 09:32 AM</dd>
 									</div>
 									<div class="col">
 										<dt>Company</dt>
@@ -2219,77 +2165,30 @@ callback #: 702-937-9727</dd>
 																										</div>
 								<div class="row">
 									<dt>Details</dt>
-									<dd class="update-text-success" id="4237472792_view_comments">A 85.8k document named S.AYSON ID.pdf has been added to this case.</dd>
+									<dd class="update-text-success" id="4235154578_view_comments">A 33.5k photo named IMG_5043.jpeg has been added to this case.</dd>
 								</div>
 															</dl>
 						</div>
 					</div>
 											
-																																																					<input type="hidden" id="client_email" value="" style="">
-					<div class=" update_content mb-4" id="updatearea_4237190608">
-						<div id="updateModuleIndividualAlerts_4237190608" class="rdn_alert"></div>
+																																																					<input type="hidden" id="client_email" value="">
+					<div class=" update_content mb-4" id="updatearea_4235154542">
+						<div id="updateModuleIndividualAlerts_4235154542" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
-																																											<button class="btn btn-link js-remove-on-delete js-visible text-danger" onclick="toggleVisibleUpdate(4237190608);">
-									<svg class="svg-inline--fa fa-check fa-w-16" aria-hidden="true" id="isvisibleicon_4237190608" data-active="active" focusable="false" data-prefix="fas" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg><!-- <span class="fas fa-check" aria-hidden="true" id="isvisibleicon_4237190608" data-active="active"></span> Font Awesome fontawesome.com -->
-									<span id="visiblestate_4237190608">Not Visible</span>
+																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4235154542); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
 								</button>
-								<button type="button" class="js-remove-on-delete js-edit btn btn-link" onclick="window.caseModal.load('_module.php?module_id=2&amp;mode=edit&amp;update=4237190608&amp;case_id=' + case_id);"><svg class="svg-inline--fa fa-edit fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"></path></svg><!-- <i class="fas fa-edit"></i> Font Awesome fontawesome.com --> Edit</button>
-								<button type="button" class="js-remove-on-delete js-delete btn btn-link" onclick="window.caseModal.load('_module.php?module_id=2&amp;mode=delete&amp;update=4237190608&amp;case_id=' + case_id);"><svg class="svg-inline--fa fa-trash fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash"></i> Font Awesome fontawesome.com --> Delete</button>
-																													<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237190608); return false;" id="email_client_icon_4237190608"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
-														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237190608" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																				</div>
-						
-						<div class="user cb update-text-invisible" id="updatedisplaysection_4237190608">
-							<dl>
-								<div class="row row-cols-5">
-									<div class="col">
-										<dt>Saved to RDN</dt>
-										<dd>05/02/2025 12:28 PM</dd>
-									</div>
-									<div class="col">
-										<dt>Last Updated By</dt>
-										<dd>Jessica Johnson (User)</dd>
-									</div>
-									<div class="col">
-										<dt>Update Date/Time</dt>
-										<dd>05/02/2025 12:26 PM</dd>
-									</div>
-									<div class="col">
-										<dt>Company</dt>
-										<dd>RECOVERY NETWORK OF NEVADA, INC.</dd>
-									</div>
-									<div class="col">
-										<dt>Update Type</dt>
-										<dd>(O)Agent-Update</dd>
-									</div>
-																										</div>
-								<div class="row">
-									<dt>Details</dt>
-									<dd class="update-text-black" id="4237190608_view_comments">DOCUSIGN: 702-937-9727<br>
-JUST IN CASE: AANSUES12@GMAILCOM</dd>
-								</div>
-															</dl>
-						</div>
-					</div>
-											
-																																																					<input type="hidden" id="client_email" value="" style="">
-					<div class=" update_content mb-4" id="updatearea_4237164195">
-						<div id="updateModuleIndividualAlerts_4237164195" class="rdn_alert"></div>
-						<div class="d-flex border-top border-bottom align-items-center mb-2">
-																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4237164195); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
-								</button>
-																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4237164195" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
-																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237164195); return false;" id="email_client_icon_4237164195"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
-														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237164195" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237164195" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237164195)" style="">
+																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4235154542" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
+																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4235154542); return false;" id="email_client_icon_4235154542"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
+														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4235154542" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4235154542" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4235154542)">
 													</div>
 						
-						<div class="service" id="updatedisplaysection_4237164195">
+						<div class="service" id="updatedisplaysection_4235154542">
 							<dl>
 								<div class="row row-cols-5">
 									<div class="col">
 										<dt>Saved to RDN</dt>
-										<dd>05/02/2025 12:13 PM</dd>
+										<dd>05/01/2025 09:32 AM</dd>
 									</div>
 									<div class="col">
 										<dt>Last Updated By</dt>
@@ -2297,7 +2196,7 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 									</div>
 									<div class="col">
 										<dt>Update Date/Time</dt>
-										<dd>05/02/2025 12:13 PM</dd>
+										<dd>05/01/2025 09:32 AM</dd>
 									</div>
 									<div class="col">
 										<dt>Company</dt>
@@ -2310,7 +2209,95 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 																										</div>
 								<div class="row">
 									<dt>Details</dt>
-									<dd class="update-text-success" id="4237164195_view_comments">A 54.0k document named Redemption-Release---Hyundai-2168104488.pdf has been added to this case.</dd>
+									<dd class="update-text-success" id="4235154542_view_comments">A 32.0k photo named IMG_5044.jpeg has been added to this case.</dd>
+								</div>
+															</dl>
+						</div>
+					</div>
+											
+																																																					<input type="hidden" id="client_email" value="">
+					<div class=" update_content mb-4" id="updatearea_4235154505">
+						<div id="updateModuleIndividualAlerts_4235154505" class="rdn_alert"></div>
+						<div class="d-flex border-top border-bottom align-items-center mb-2">
+																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4235154505); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
+								</button>
+																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4235154505" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
+																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4235154505); return false;" id="email_client_icon_4235154505"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
+														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4235154505" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4235154505" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4235154505)">
+													</div>
+						
+						<div class="service" id="updatedisplaysection_4235154505">
+							<dl>
+								<div class="row row-cols-5">
+									<div class="col">
+										<dt>Saved to RDN</dt>
+										<dd>05/01/2025 09:32 AM</dd>
+									</div>
+									<div class="col">
+										<dt>Last Updated By</dt>
+										<dd> (Service)</dd>
+									</div>
+									<div class="col">
+										<dt>Update Date/Time</dt>
+										<dd>05/01/2025 09:32 AM</dd>
+									</div>
+									<div class="col">
+										<dt>Company</dt>
+										<dd><span class="text-muted">&lt;empty&gt;</span></dd>
+									</div>
+									<div class="col">
+										<dt>Update Type</dt>
+										<dd>(O) Other</dd>
+									</div>
+																										</div>
+								<div class="row">
+									<dt>Details</dt>
+									<dd class="update-text-success" id="4235154505_view_comments">A 32.5k photo named IMG_5045.jpeg has been added to this case.</dd>
+								</div>
+															</dl>
+						</div>
+					</div>
+											
+																																																					<input type="hidden" id="client_email" value="">
+					<div class=" update_content mb-4" id="updatearea_4235154467">
+						<div id="updateModuleIndividualAlerts_4235154467" class="rdn_alert"></div>
+						<div class="d-flex border-top border-bottom align-items-center mb-2">
+																						<button type="button" class="js-remove-on-delete js-transfer2client btn btn-link" onclick="transferToClient(4235154467); return false;"><svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> Font Awesome fontawesome.com --> Transfer to Client
+								</button>
+																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4235154467" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
+																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4235154467); return false;" id="email_client_icon_4235154467"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
+														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4235154467" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4235154467" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4235154467)">
+													</div>
+						
+						<div class="service" id="updatedisplaysection_4235154467">
+							<dl>
+								<div class="row row-cols-5">
+									<div class="col">
+										<dt>Saved to RDN</dt>
+										<dd>05/01/2025 09:32 AM</dd>
+									</div>
+									<div class="col">
+										<dt>Last Updated By</dt>
+										<dd> (Service)</dd>
+									</div>
+									<div class="col">
+										<dt>Update Date/Time</dt>
+										<dd>05/01/2025 09:32 AM</dd>
+									</div>
+									<div class="col">
+										<dt>Company</dt>
+										<dd><span class="text-muted">&lt;empty&gt;</span></dd>
+									</div>
+									<div class="col">
+										<dt>Update Type</dt>
+										<dd>(O) Other</dd>
+									</div>
+																										</div>
+								<div class="row">
+									<dt>Details</dt>
+									<dd class="update-text-success" id="4235154467_view_comments">A 28.0k photo named IMG_5046.jpeg has been added to this case.</dd>
 								</div>
 															</dl>
 						</div>
@@ -2318,17 +2305,17 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 											
 			<nav aria-label="Updates pagination">
 				<ul class="pagination js-update-pagination pagination-sm flex-wrap justify-content-center">
-					<li class="page-item disabled">
-						<a href="#" class="page-link" data-page="0">«</a>
+					<li class="page-item ">
+						<a href="#" class="page-link" data-page="2">«</a>
 					</li>
 
-											<li class="page-item active">
+											<li class="page-item ">
 							<a class="page-link" href="#" data-page="1">1</a>
 						</li>
 											<li class="page-item ">
 							<a class="page-link" href="#" data-page="2">2</a>
 						</li>
-											<li class="page-item ">
+											<li class="page-item active">
 							<a class="page-link" href="#" data-page="3">3</a>
 						</li>
 											<li class="page-item ">
@@ -2367,7 +2354,7 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 					</li>
 
 					<li class="page-item ">
-						<a href="#" class="page-link" data-page="2">»</a>
+						<a href="#" class="page-link" data-page="4">»</a>
 					</li>
 				</ul>
 			</nav>
@@ -2786,24 +2773,24 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 </style><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 32"><path d="M28 32s-4.714-1.855-8.527-3.34H3.437C1.54 28.66 0 27.026 0 25.013V3.644C0 1.633 1.54 0 3.437 0h21.125c1.898 0 3.437 1.632 3.437 3.645v18.404H28V32zm-4.139-11.982a.88.88 0 00-1.292-.105c-.03.026-3.015 2.681-8.57 2.681-5.486 0-8.517-2.636-8.571-2.684a.88.88 0 00-1.29.107 1.01 1.01 0 00-.219.708.992.992 0 00.318.664c.142.128 3.537 3.15 9.762 3.15 6.226 0 9.621-3.022 9.763-3.15a.992.992 0 00.317-.664 1.01 1.01 0 00-.218-.707z"></path></svg></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="currentColor"></path>
 </svg>
-</div></div></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all"><div class="ui-multiselect-header ui-widget-header ui-corner-all ui-helper-clearfix ui-multiselect-hasfilter"><div class="ui-multiselect-filter"><label class="ui-multiselect-filter-label">Filter:<input placeholder="Enter keywords" type="search" style=""></label></div><ul class="ui-helper-reset"><li><a class="ui-multiselect-all" title="Check all"><span class="ui-icon ui-icon-check"></span><span>Check all</span></a></li><li><a class="ui-multiselect-none" title="Uncheck all"><span class="ui-icon ui-icon-closethick"></span><span>Uncheck all</span></a></li><li class="ui-multiselect-close"><a class="ui-multiselect-close" title="Close"><span class="ui-icon ui-icon-circle-close"></span></a></li></ul></div><ul class="ui-multiselect-checkboxes ui-helper-reset"><li class="ui-multiselect-optgroup"><a class="ui-multiselect-grouplabel ui-multiselect-selectable">Update Types</a><ul><li class=""><label for="ui-multiselect-0-types-option-0" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-0" value="87" name="multiselect_types" style=""><span>
+</div></div></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all"><div class="ui-multiselect-header ui-widget-header ui-corner-all ui-helper-clearfix ui-multiselect-hasfilter"><div class="ui-multiselect-filter"><label class="ui-multiselect-filter-label">Filter:<input placeholder="Enter keywords" type="search"></label></div><ul class="ui-helper-reset"><li><a class="ui-multiselect-all" title="Check all"><span class="ui-icon ui-icon-check"></span><span>Check all</span></a></li><li><a class="ui-multiselect-none" title="Uncheck all"><span class="ui-icon ui-icon-closethick"></span><span>Uncheck all</span></a></li><li class="ui-multiselect-close"><a class="ui-multiselect-close" title="Close"><span class="ui-icon ui-icon-circle-close"></span></a></li></ul></div><ul class="ui-multiselect-checkboxes ui-helper-reset"><li class="ui-multiselect-optgroup"><a class="ui-multiselect-grouplabel ui-multiselect-selectable">Update Types</a><ul><li class=""><label for="ui-multiselect-0-types-option-0" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-0" value="87" name="multiselect_types"><span>
 									(O) Other
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-1" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-1" value="116" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-1" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-1" value="116" name="multiselect_types"><span>
 									Fee Request
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-2" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-2" value="134" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-2" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-2" value="134" name="multiselect_types"><span>
 									Address occupied, will continue recovery efforts
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-3" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-3" value="18" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-3" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-3" value="18" name="multiselect_types"><span>
 									Transfer from Client
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-4" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-4" value="36" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-4" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-4" value="36" name="multiselect_types"><span>
 									(O)Agent-Update
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-5" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-5" value="109" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-5" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-5" value="109" name="multiselect_types"><span>
 									Agent-recovery
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-6" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-6" value="7" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-6" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-6" value="7" name="multiselect_types"><span>
 									Other
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-7" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-7" value="6" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-7" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-7" value="6" name="multiselect_types"><span>
 									Agent-Update
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-8" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-8" value="110" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-8" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-8" value="110" name="multiselect_types"><span>
 									Agent-C/R
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-9" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-9" value="19" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-9" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-9" value="19" name="multiselect_types"><span>
 									Invoice Approval
-								</span></label></li></ul></li></ul></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>
+								</span></label></li></ul></li></ul></div></body></html>

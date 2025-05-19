@@ -1,0 +1,46 @@
+[
+  {
+    "date": "05/05/2025 07:57 AM",
+    "details": "Status changed from Pending Approval to Approved.\n\nComment: approved.\n\nApproved for $110.00\n\n",
+    "amount": 110.0,
+    "amountStr": "$110.00",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  },
+  {
+    "date": "05/05/2025 07:28 AM",
+    "details": "$110 flatbed/dolly fee approved contingent on pics of unit on flatbed/dolly",
+    "amount": 110.0,
+    "amountStr": "$110",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  },
+  {
+    "date": "05/01/2025 08:52 AM",
+    "details": "A new fee request has been submitted on case ID 2168897603\n\nThe fee request is for Flatbed Fees in the amount of $110.00",
+    "amount": 110.0,
+    "amountStr": "$110.00",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  },
+  {
+    "date": "05/01/2025 12:29 AM",
+    "details": "Attn Vendor: All personal property must be removed inventoried before releasing unit to transport. A fully functional key should only be cut if all personal property cannot be removed. Key pre-approval up to $350 is included with assignment. If key is higher than $350, please request fee in RDN within 24 hours of repo. All Keys must be cut within 48 hours. Please upload all applicable receipts within 24 hours of key cut. Thank you.",
+    "amount": 350.0,
+    "amountStr": "$350",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  }
+]

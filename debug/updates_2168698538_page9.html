@@ -165,7 +165,7 @@
 </head>
 <body>
 
-<div id="loading" style="display: none;">
+<div id="loading" style="display: block;">
     <div id="loading_inner" align="center">
         <div><img src="/images/ajax_progress.gif"> Loading...</div>
     </div>
@@ -1879,16 +1879,16 @@ function countLines(pos) {
 							<label class="form-label" for="event_date">Date/time</label>
 							<div class="row row-cols-4 gx-1">
 								<div class="col">
-								<input name="event_date" value="05/16/2025" id="module_caseupdates_update_date" class="form-control" maxlength="10" readonly="">
+								<input name="event_date" value="05/16/2025" id="module_caseupdates_update_date" class="form-control hasDatepicker" maxlength="10" readonly="">
 								</div>
 								<div class="col"><select name="Time_Hour" id="theHour" class="form-select ms-1">
 <option value="01">01</option>
 <option value="02">02</option>
 <option value="03">03</option>
-<option value="04" selected="selected">04</option>
+<option value="04">04</option>
 <option value="05">05</option>
 <option value="06">06</option>
-<option value="07">07</option>
+<option value="07" selected="selected">07</option>
 <option value="08">08</option>
 <option value="09">09</option>
 <option value="10">10</option>
@@ -1908,7 +1908,7 @@ function countLines(pos) {
 <option value="09">09</option>
 <option value="10">10</option>
 <option value="11">11</option>
-<option value="12" selected="selected">12</option>
+<option value="12">12</option>
 <option value="13">13</option>
 <option value="14">14</option>
 <option value="15">15</option>
@@ -1928,7 +1928,7 @@ function countLines(pos) {
 <option value="29">29</option>
 <option value="30">30</option>
 <option value="31">31</option>
-<option value="32">32</option>
+<option value="32" selected="selected">32</option>
 <option value="33">33</option>
 <option value="34">34</option>
 <option value="35">35</option>
@@ -2030,7 +2030,7 @@ function countLines(pos) {
 				Updates
 				<div>
 										<label class="small" for="types">Limit Type To</label>
-						<select name="types[]" size="4" multiple="multiple" id="types">
+						<select name="types[]" size="4" multiple="multiple" id="types" style="display: none;">
 						<optgroup label="Update Types">
 															<option value="87">
 									(O) Other
@@ -2063,7 +2063,7 @@ function countLines(pos) {
 									Invoice Approval
 								</option>
 													</optgroup>
-					</select>
+					</select><button class="ui-multiselect ui-widget ui-state-default ui-corner-all" type="button" title="" tabindex="0" id="types_ms" style="width: 225px;"><span class="ui-multiselect-open" title="Open"><span class="ui-icon ui-icon-triangle-1-s"></span></span><span>All</span></button>
 					<div class="btn-group">
 													<button type="button" class="btn btn-sm btn-link disabled" title="No e-mail entered">
 								<svg class="svg-inline--fa fa-eye fa-w-18" aria-hidden="true" focusable="false" data-prefix="far" data-icon="eye" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"></path></svg><!-- <span class="far fa-eye"></span> Font Awesome fontawesome.com --> All <span class="updatechecktext">visible</span> to client
@@ -2773,4 +2773,24 @@ function countLines(pos) {
 </style><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 32"><path d="M28 32s-4.714-1.855-8.527-3.34H3.437C1.54 28.66 0 27.026 0 25.013V3.644C0 1.633 1.54 0 3.437 0h21.125c1.898 0 3.437 1.632 3.437 3.645v18.404H28V32zm-4.139-11.982a.88.88 0 00-1.292-.105c-.03.026-3.015 2.681-8.57 2.681-5.486 0-8.517-2.636-8.571-2.684a.88.88 0 00-1.29.107 1.01 1.01 0 00-.219.708.992.992 0 00.318.664c.142.128 3.537 3.15 9.762 3.15 6.226 0 9.621-3.022 9.763-3.15a.992.992 0 00.317-.664 1.01 1.01 0 00-.218-.707z"></path></svg></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="currentColor"></path>
 </svg>
-</div></div></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>
+</div></div></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all"><div class="ui-multiselect-header ui-widget-header ui-corner-all ui-helper-clearfix ui-multiselect-hasfilter"><div class="ui-multiselect-filter"><label class="ui-multiselect-filter-label">Filter:<input placeholder="Enter keywords" type="search"></label></div><ul class="ui-helper-reset"><li><a class="ui-multiselect-all" title="Check all"><span class="ui-icon ui-icon-check"></span><span>Check all</span></a></li><li><a class="ui-multiselect-none" title="Uncheck all"><span class="ui-icon ui-icon-closethick"></span><span>Uncheck all</span></a></li><li class="ui-multiselect-close"><a class="ui-multiselect-close" title="Close"><span class="ui-icon ui-icon-circle-close"></span></a></li></ul></div><ul class="ui-multiselect-checkboxes ui-helper-reset"><li class="ui-multiselect-optgroup"><a class="ui-multiselect-grouplabel ui-multiselect-selectable">Update Types</a><ul><li class=""><label for="ui-multiselect-0-types-option-0" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-0" value="87" name="multiselect_types"><span>
+									(O) Other
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-1" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-1" value="116" name="multiselect_types"><span>
+									Fee Request
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-2" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-2" value="134" name="multiselect_types"><span>
+									Address occupied, will continue recovery efforts
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-3" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-3" value="18" name="multiselect_types"><span>
+									Transfer from Client
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-4" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-4" value="36" name="multiselect_types"><span>
+									(O)Agent-Update
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-5" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-5" value="109" name="multiselect_types"><span>
+									Agent-recovery
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-6" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-6" value="7" name="multiselect_types"><span>
+									Other
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-7" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-7" value="6" name="multiselect_types"><span>
+									Agent-Update
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-8" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-8" value="110" name="multiselect_types"><span>
+									Agent-C/R
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-9" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-9" value="19" name="multiselect_types"><span>
+									Invoice Approval
+								</span></label></li></ul></li></ul></div></body></html>

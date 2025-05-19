@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/c/ClaudeAI/AIData/Files/JamiBilling/webapp/app_playwright.py", line 17, in <module>
+    import pypyodbc as pyodbc
+ModuleNotFoundError: No module named 'pypyodbc'

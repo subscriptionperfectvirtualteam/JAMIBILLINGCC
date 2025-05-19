@@ -1,0 +1,19 @@
+C:\ClaudeAI\AIData\Files\JamiBilling\webapp\updates_extractor_test.py:605: DeprecationWarning: There is no current event loop
+  loop = asyncio.get_event_loop()
+2025-05-16 20:13:55,381 - root - INFO - Navigating to test URL: https://app.recoverydatabase.net/alpha_rdn/module/default/case2/?case_id=2168698538
+2025-05-16 20:14:07,345 - root - INFO - WAITING FOR MANUAL LOGIN - Please log in to the RDN system in the browser window
+2025-05-16 20:14:07,345 - root - INFO - After login, please navigate to the Updates tab manually
+2025-05-16 20:15:07,364 - root - INFO - Resuming automation - assuming you have logged in and navigated to the Updates tab
+2025-05-16 20:15:07,533 - root - INFO - Looking for pagination elements on the page
+2025-05-16 20:15:07,670 - root - ERROR - Error testing with URL: Page.evaluate: SyntaxError: Failed to execute 'querySelectorAll' on 'Document': 'a.next, button.next, a[rel="next"], a:has-text("Next"), a:has-text("»")' is not a valid selector.
+    at eval (eval at evaluate (:313:29), <anonymous>:11:46)
+    at UtilityScript.evaluate (<anonymous>:320:18)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+2025-05-16 20:15:07,806 - root - INFO - Loading sample HTML file: debug\updates_2168698538_page1.html
+2025-05-16 20:15:09,126 - root - INFO - Extracting updates from URL: https://app.recoverydatabase.net/alpha_rdn/module/default/case2/?case_id=2168698538# (Page 1)
+2025-05-16 20:15:09,140 - root - INFO - Looking for update elements with direct selectors
+2025-05-16 20:15:09,152 - root - INFO - Total direct elements found: 0
+2025-05-16 20:15:09,153 - root - INFO - Found 0 dd elements with details content
+2025-05-16 20:15:09,153 - root - ERROR - Error testing with sample file: 'NoneType' object is not iterable
+Starting updates extraction test...
+Test completed. Check the logs for results.

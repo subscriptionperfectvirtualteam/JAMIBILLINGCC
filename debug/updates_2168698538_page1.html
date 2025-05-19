@@ -205,8 +205,8 @@
             <td align="center">
                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tbody><tr>
-                        <td width="50%" align="center"><input id="printFileFolderButton" type="button" style="width: 100px;" value="Print" onclick="printLabelPreview();"></td>
-                        <td width="50%" align="center"><input type="button" style="width: 100px;" value="Done" onclick="hidePrompt('preview_label_prompt');"></td>
+                        <td width="50%" align="center"><input id="printFileFolderButton" type="button" style="width:100px;" value="Print" onclick="printLabelPreview();"></td>
+                        <td width="50%" align="center"><input type="button" style="width:100px;" value="Done" onclick="hidePrompt('preview_label_prompt');"></td>
                     </tr>
                 </tbody></table>
             </td>
@@ -310,11 +310,11 @@
                     <div class="section__main">
                         <h1 id="modalDialog_title" class="section__title"></h1>
                         <div id="modalDialog_html"></div>
-                        <input class="btn btn-warning mt-2" type="button" onclick="if (modalDialogSubmit())modalDialogSubmitDefault();$('#module_10110').load('_module.php?case_id='+case_id+'&amp;module_id=10110');" value="Submit" style="">
-                        <input class="btn btn-outline-secondary mt-2" type="button" onclick="if (modalDialogCancel()) modalDialogCancelDefault();" value="Cancel" style="">
+                        <input class="btn btn-warning mt-2" type="button" onclick="if (modalDialogSubmit())modalDialogSubmitDefault();$('#module_10110').load('_module.php?case_id='+case_id+'&amp;module_id=10110');" value="Submit">
+                        <input class="btn btn-outline-secondary mt-2" type="button" onclick="if (modalDialogCancel()) modalDialogCancelDefault();" value="Cancel">
                     </div>
                 </div>
-                <div id="ContentLoader" class="section--top-margin"><a name="module_10110"></a><div id="module_10110"><div class="section section__info"><div class="section__main"><div id="staticModuleAlerts"></div><h1 class="d-flex flex-row align-items-center justify-content-start section__title"><div class="pe-2">Repossessed on: 05/01/2025</div><div class="border-start px-2">Stored for 2 day(s).</div><div class="ps-2 border-start">RO Redeemed on 05/02/2025, 15 day(s) ago.</div></h1><div class="row"><div class="col-3"><span id="case_order_type_static"><b>Order To</b><br><h5 class="mb-1 mt-2"><span class="badge-invol">Involuntary Repo</span></h5></span><div class="my-2"><a href="/forms/view/case_id/2168698538/form_id/1" target="_blank">Work Order</a></div></div><div class="col-3"><strong><span id="case_status_static">Status <h5 class="mb-1 mt-1"><span class="badge-repossessed">Repossessed</span></h5></span></strong><br><button class="btn btn-link" onclick="switchTab(85,function() { createFastInvoice();})">Quick Invoice</button></div><div class="col-3"><b>Add Sub-Status<form name="sub_statis_submit" id="sub_statis_submit" method="POST"><select name="status" class="form-select" id="sub_status" onchange="static_change(id,&quot;sub_status&quot;,value)"><option value=""></option><option value="Lot2">Lot2</option><option value="Redemption Hold">Redemption Hold</option><option value="Transport Hold">Transport Hold</option><option value="WITH GPS">WITH GPS</option></select><input type="hidden" name="id" id="id" value="2168698538" style=""></form><form id="substatus_add_new_form" action="" method="post"><div id="sub_system_add">Add Sub-<input value="" id="sub_system_add_field" type="text" name="status" class="form-control form-control-sm" style=""><span title="click to add new sub status" onclick="addNewSubStatus(2501)"><img src="/images/create.png"></span></div></form></b></div><div class="col-2"><strong>Jump To</strong><br><form method="GET" onsubmit="this.tab.value=current_tab;return true;"><input type="hidden" name="tab" style=""><input type="text" class="form-control ui-autocomplete-input" name="case_id" id="jump_to_autocomplete" placeholder="Case #" autocomplete="off" style=""></form></div><script>
+                <div id="ContentLoader" class="section--top-margin"><a name="module_10110"></a><div id="module_10110"><div class="section section__info"><div class="section__main"><div id="staticModuleAlerts"></div><h1 class="d-flex flex-row align-items-center justify-content-start section__title"><div class="pe-2">Repossessed on: 05/01/2025</div><div class="border-start px-2">Stored for 2 day(s).</div><div class="ps-2 border-start">RO Redeemed on 05/02/2025, 15 day(s) ago.</div></h1><div class="row"><div class="col-3"><span id="case_order_type_static"><b>Order To</b><br><h5 class="mb-1 mt-2"><span class="badge-invol">Involuntary Repo</span></h5></span><div class="my-2"><a href="/forms/view/case_id/2168698538/form_id/1" target="_blank">Work Order</a></div></div><div class="col-3"><strong><span id="case_status_static">Status <h5 class="mb-1 mt-1"><span class="badge-repossessed">Repossessed</span></h5></span></strong><br><button class="btn btn-link" onclick="switchTab(85,function() { createFastInvoice();})">Quick Invoice</button></div><div class="col-3"><b>Add Sub-Status<form name="sub_statis_submit" id="sub_statis_submit" method="POST"><select name="status" class="form-select" id="sub_status" onchange="static_change(id,&quot;sub_status&quot;,value)"><option value=""></option><option value="Lot2">Lot2</option><option value="Redemption Hold">Redemption Hold</option><option value="Transport Hold">Transport Hold</option><option value="WITH GPS">WITH GPS</option></select><input type="hidden" name="id" id="id" value="2168698538"></form><form id="substatus_add_new_form" action="" method="post"><div id="sub_system_add">Add Sub-<input value="" id="sub_system_add_field" type="text" name="status" class="form-control form-control-sm"><span title="click to add new sub status" onclick="addNewSubStatus(2501)"><img src="/images/create.png"></span></div></form></b></div><div class="col-2"><strong>Jump To</strong><br><form method="GET" onsubmit="this.tab.value=current_tab;return true;"><input type="hidden" name="tab"><input type="text" class="form-control ui-autocomplete-input" name="case_id" id="jump_to_autocomplete" placeholder="Case #" autocomplete="off"></form></div><script>
 			$(function(){
 				$('#jump_to_autocomplete').autocomplete({
 					source: '/ajax/case_lookup.php',
@@ -878,7 +878,7 @@ function alertAndRefresh(address_id){
 						<div id="image_browse_inputs_393498301" rel="393498301">
 							<div class="d-flex js-file-input my-2">
 								<div>
-									<input name="new_address_photo[]" class="form-control" accept=".jpg,.jpeg,.png,.gif" type="file" rel="393498301" style="">
+									<input name="new_address_photo[]" class="form-control" accept=".jpg,.jpeg,.png,.gif" type="file" rel="393498301">
 								</div>
 							</div>
 						</div>
@@ -973,7 +973,7 @@ function alertAndRefresh(address_id){
 					<div id="full_size_view_393498301" class="photo_display mb-2" style="display: none;">
 						<div class="d-inline-block border bg-light rounded">
 							<div class="d-flex">
-								<input type="hidden" id="delete_address_photo_id_393498301" name="delete_address_photo_id_393498301" value="" style="">
+								<input type="hidden" id="delete_address_photo_id_393498301" name="delete_address_photo_id_393498301" value="">
 								<button type="button" class="btn btn-link" onclick="hideAddressImage(393498301);"><svg class="svg-inline--fa fa-times fa-w-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-fa-i2svg=""><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg><!-- <i class="fas fa-times"></i> Font Awesome fontawesome.com --> Close</button>
 								<button type="button" class="btn btn-link ms-auto" onclick="deleteAddressPhoto(393498301);"><svg class="svg-inline--fa fa-trash fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash"></i> Font Awesome fontawesome.com --> Delete</button>
 							</div>
@@ -1031,7 +1031,7 @@ function alertAndRefresh(address_id){
 						<div id="image_browse_inputs_393626748" rel="393626748">
 							<div class="d-flex js-file-input my-2">
 								<div>
-									<input name="new_address_photo[]" class="form-control" accept=".jpg,.jpeg,.png,.gif" type="file" rel="393626748" style="">
+									<input name="new_address_photo[]" class="form-control" accept=".jpg,.jpeg,.png,.gif" type="file" rel="393626748">
 								</div>
 							</div>
 						</div>
@@ -1119,7 +1119,7 @@ function alertAndRefresh(address_id){
 					<div id="full_size_view_393626748" class="photo_display mb-2" style="display: none;">
 						<div class="d-inline-block border bg-light rounded">
 							<div class="d-flex">
-								<input type="hidden" id="delete_address_photo_id_393626748" name="delete_address_photo_id_393626748" value="" style="">
+								<input type="hidden" id="delete_address_photo_id_393626748" name="delete_address_photo_id_393626748" value="">
 								<button type="button" class="btn btn-link" onclick="hideAddressImage(393626748);"><svg class="svg-inline--fa fa-times fa-w-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-fa-i2svg=""><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg><!-- <i class="fas fa-times"></i> Font Awesome fontawesome.com --> Close</button>
 								<button type="button" class="btn btn-link ms-auto" onclick="deleteAddressPhoto(393626748);"><svg class="svg-inline--fa fa-trash fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash"></i> Font Awesome fontawesome.com --> Delete</button>
 							</div>
@@ -1871,9 +1871,9 @@ function countLines(pos) {
 
 			<form id="updatesForm" name="updatesform" method="post" action="">
 				<div id="createmode">
-					<input type="hidden" name="case_id" value="2168698538" style="">
-					<input type="hidden" id="updateVisible" name="visible" value="1" style="">
-					<input type="hidden" name="command" style="">
+					<input type="hidden" name="case_id" value="2168698538">
+					<input type="hidden" id="updateVisible" name="visible" value="1">
+					<input type="hidden" name="command">
 
 
 					<div class="row row-cols-4 gy-2">
@@ -1881,16 +1881,16 @@ function countLines(pos) {
 							<label class="form-label" for="event_date">Date/time</label>
 							<div class="row row-cols-4 gx-1">
 								<div class="col">
-								<input name="event_date" value="05/16/2025" id="module_caseupdates_update_date" class="form-control hasDatepicker" maxlength="10" readonly="" style="">
+								<input name="event_date" value="05/16/2025" id="module_caseupdates_update_date" class="form-control hasDatepicker" maxlength="10" readonly="">
 								</div>
 								<div class="col"><select name="Time_Hour" id="theHour" class="form-select ms-1">
 <option value="01">01</option>
 <option value="02">02</option>
 <option value="03">03</option>
-<option value="04" selected="selected">04</option>
+<option value="04">04</option>
 <option value="05">05</option>
 <option value="06">06</option>
-<option value="07">07</option>
+<option value="07" selected="selected">07</option>
 <option value="08">08</option>
 <option value="09">09</option>
 <option value="10">10</option>
@@ -1910,7 +1910,7 @@ function countLines(pos) {
 <option value="09">09</option>
 <option value="10">10</option>
 <option value="11">11</option>
-<option value="12" selected="selected">12</option>
+<option value="12">12</option>
 <option value="13">13</option>
 <option value="14">14</option>
 <option value="15">15</option>
@@ -1935,7 +1935,7 @@ function countLines(pos) {
 <option value="34">34</option>
 <option value="35">35</option>
 <option value="36">36</option>
-<option value="37">37</option>
+<option value="37" selected="selected">37</option>
 <option value="38">38</option>
 <option value="39">39</option>
 <option value="40">40</option>
@@ -2023,7 +2023,7 @@ function countLines(pos) {
 	</div>
 
 <form id="visibleForm" action="" method="" style="display: none;">
-	<input type="hidden" name="visible" id="isVisible" value="0" style="">
+	<input type="hidden" name="visible" id="isVisible" value="0">
 </form>
 	<div id="viewmode" class="section">
 		<div class="section__main">
@@ -2085,7 +2085,7 @@ function countLines(pos) {
 		</h1>
 
 									
-																																																					<input type="hidden" id="client_email" value="" style="">
+																																																					<input type="hidden" id="client_email" value="">
 					<div class=" update_content mb-4" id="updatearea_4240594456">
 						<div id="updateModuleIndividualAlerts_4240594456" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
@@ -2137,7 +2137,7 @@ callback #: 702-937-9727</dd>
 						</div>
 					</div>
 											
-																																																					<input type="hidden" id="client_email" value="" style="">
+																																																					<input type="hidden" id="client_email" value="">
 					<div class=" update_content mb-4" id="updatearea_4237472802">
 						<div id="updateModuleIndividualAlerts_4237472802" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
@@ -2146,7 +2146,7 @@ callback #: 702-937-9727</dd>
 																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4237472802" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
 																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237472802); return false;" id="email_client_icon_4237472802"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
 														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237472802" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237472802" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237472802)" style="">
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237472802" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237472802)">
 													</div>
 						
 						<div class="service" id="updatedisplaysection_4237472802">
@@ -2181,7 +2181,7 @@ callback #: 702-937-9727</dd>
 						</div>
 					</div>
 											
-																																																					<input type="hidden" id="client_email" value="" style="">
+																																																					<input type="hidden" id="client_email" value="">
 					<div class=" update_content mb-4" id="updatearea_4237472792">
 						<div id="updateModuleIndividualAlerts_4237472792" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
@@ -2190,7 +2190,7 @@ callback #: 702-937-9727</dd>
 																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4237472792" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
 																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237472792); return false;" id="email_client_icon_4237472792"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
 														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237472792" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237472792" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237472792)" style="">
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237472792" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237472792)">
 													</div>
 						
 						<div class="service" id="updatedisplaysection_4237472792">
@@ -2225,7 +2225,7 @@ callback #: 702-937-9727</dd>
 						</div>
 					</div>
 											
-																																																					<input type="hidden" id="client_email" value="" style="">
+																																																					<input type="hidden" id="client_email" value="">
 					<div class=" update_content mb-4" id="updatearea_4237190608">
 						<div id="updateModuleIndividualAlerts_4237190608" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
@@ -2272,7 +2272,7 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 						</div>
 					</div>
 											
-																																																					<input type="hidden" id="client_email" value="" style="">
+																																																					<input type="hidden" id="client_email" value="">
 					<div class=" update_content mb-4" id="updatearea_4237164195">
 						<div id="updateModuleIndividualAlerts_4237164195" class="rdn_alert"></div>
 						<div class="d-flex border-top border-bottom align-items-center mb-2">
@@ -2281,7 +2281,7 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 																																																				<button type="button" class="btn btn-link disabled" id="email_client_icon_4237164195" title="No e-mail entered"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope" aria-hidden="true"></i> Font Awesome fontawesome.com --> Client</button>
 																														<button type="button" class="btn btn-link" onclick="emailSlider('collector',4237164195); return false;" id="email_client_icon_4237164195"><svg class="svg-inline--fa fa-envelope fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg><!-- <i class="far fa-envelope"></i> Font Awesome fontawesome.com --> Collector</button>
 														<a class="btn btn-link" href="/forms/view/case_id/2168698538/form_id/32/update_id/4237164195" target="_blank"><svg class="svg-inline--fa fa-print fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"></path></svg><!-- <i class="fas fa-print"></i> Font Awesome fontawesome.com --> Print</a>
-																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237164195" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237164195)" style="">
+																						<input type="checkbox" name="updateCheck[]" class="updatecheck form-check-input ms-2 mt-0" id="4237164195" value="true" title="check to send multi selected updates email" onclick="updatesCheck(4237164195)">
 													</div>
 						
 						<div class="service" id="updatedisplaysection_4237164195">
@@ -2786,24 +2786,24 @@ JUST IN CASE: AANSUES12@GMAILCOM</dd>
 </style><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 32"><path d="M28 32s-4.714-1.855-8.527-3.34H3.437C1.54 28.66 0 27.026 0 25.013V3.644C0 1.633 1.54 0 3.437 0h21.125c1.898 0 3.437 1.632 3.437 3.645v18.404H28V32zm-4.139-11.982a.88.88 0 00-1.292-.105c-.03.026-3.015 2.681-8.57 2.681-5.486 0-8.517-2.636-8.571-2.684a.88.88 0 00-1.29.107 1.01 1.01 0 00-.219.708.992.992 0 00.318.664c.142.128 3.537 3.15 9.762 3.15 6.226 0 9.621-3.022 9.763-3.15a.992.992 0 00.317-.664 1.01 1.01 0 00-.218-.707z"></path></svg></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="currentColor"></path>
 </svg>
-</div></div></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all"><div class="ui-multiselect-header ui-widget-header ui-corner-all ui-helper-clearfix ui-multiselect-hasfilter"><div class="ui-multiselect-filter"><label class="ui-multiselect-filter-label">Filter:<input placeholder="Enter keywords" type="search" style=""></label></div><ul class="ui-helper-reset"><li><a class="ui-multiselect-all" title="Check all"><span class="ui-icon ui-icon-check"></span><span>Check all</span></a></li><li><a class="ui-multiselect-none" title="Uncheck all"><span class="ui-icon ui-icon-closethick"></span><span>Uncheck all</span></a></li><li class="ui-multiselect-close"><a class="ui-multiselect-close" title="Close"><span class="ui-icon ui-icon-circle-close"></span></a></li></ul></div><ul class="ui-multiselect-checkboxes ui-helper-reset"><li class="ui-multiselect-optgroup"><a class="ui-multiselect-grouplabel ui-multiselect-selectable">Update Types</a><ul><li class=""><label for="ui-multiselect-0-types-option-0" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-0" value="87" name="multiselect_types" style=""><span>
+</div></div></div><ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all"><div class="ui-multiselect-header ui-widget-header ui-corner-all ui-helper-clearfix ui-multiselect-hasfilter"><div class="ui-multiselect-filter"><label class="ui-multiselect-filter-label">Filter:<input placeholder="Enter keywords" type="search"></label></div><ul class="ui-helper-reset"><li><a class="ui-multiselect-all" title="Check all"><span class="ui-icon ui-icon-check"></span><span>Check all</span></a></li><li><a class="ui-multiselect-none" title="Uncheck all"><span class="ui-icon ui-icon-closethick"></span><span>Uncheck all</span></a></li><li class="ui-multiselect-close"><a class="ui-multiselect-close" title="Close"><span class="ui-icon ui-icon-circle-close"></span></a></li></ul></div><ul class="ui-multiselect-checkboxes ui-helper-reset"><li class="ui-multiselect-optgroup"><a class="ui-multiselect-grouplabel ui-multiselect-selectable">Update Types</a><ul><li class=""><label for="ui-multiselect-0-types-option-0" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-0" value="87" name="multiselect_types"><span>
 									(O) Other
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-1" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-1" value="116" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-1" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-1" value="116" name="multiselect_types"><span>
 									Fee Request
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-2" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-2" value="134" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-2" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-2" value="134" name="multiselect_types"><span>
 									Address occupied, will continue recovery efforts
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-3" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-3" value="18" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-3" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-3" value="18" name="multiselect_types"><span>
 									Transfer from Client
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-4" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-4" value="36" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-4" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-4" value="36" name="multiselect_types"><span>
 									(O)Agent-Update
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-5" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-5" value="109" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-5" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-5" value="109" name="multiselect_types"><span>
 									Agent-recovery
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-6" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-6" value="7" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-6" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-6" value="7" name="multiselect_types"><span>
 									Other
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-7" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-7" value="6" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-7" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-7" value="6" name="multiselect_types"><span>
 									Agent-Update
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-8" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-8" value="110" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-8" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-8" value="110" name="multiselect_types"><span>
 									Agent-C/R
-								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-9" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-9" value="19" name="multiselect_types" style=""><span>
+								</span></label></li><li class=""><label for="ui-multiselect-0-types-option-9" class=" ui-corner-all"><input type="checkbox" id="ui-multiselect-0-types-option-9" value="19" name="multiselect_types"><span>
 									Invoice Approval
 								</span></label></li></ul></li></ul></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

@@ -1,28 +1,57 @@
 [
   {
-    "date": "2025-05-01",
-    "details": "Order DateCase #2168975234Ref. Number185815 ClientPrimeritus- IBEAMCollectorIBEAM IntegrationLien HolderAmerica's Car-Mart Loss Recovery BranchClient Acct No5109258 File Folder Labels",
-    "amount": 0.0,
-    "amountStr": "$0.00",
-    "feeType": "Repossession",
+    "date": "05/12/2025 03:50 PM",
+    "details": "$75 transport fee!",
+    "amount": 75.0,
+    "amountStr": "$75",
+    "feeType": "Other",
     "feeTypeConfidence": 0.5,
-    "feeTypeColor": "#e74a3b",
-    "status": "Unknown",
-    "originalText": "Order Date2025-05-01Case #2168975234Ref. Number185815\nClientPrimeritus- IBEAMCollectorIBEAM IntegrationLien HolderAmerica's Car-Mart Loss Recovery BranchClient Acct No5109258\nFile Folder Labels",
-    "page": 1,
-    "vehicleYear": "5815",
-    "vehicleMake": "ClientPrimeritus"
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
   },
   {
-    "date": "Unknown",
-    "details": "My Summary Print Order Photos / Docs Release Invoices2 Pay Adjuster Reminders0 Office Notes0 Bids / Auction Email / Faxes History Duplicate Case Skiptracing Complaints Client Add Adjuster Adjusters 1 Updates 74 Recovery Forms Loading",
-    "amount": 0.0,
-    "amountStr": "$0.00",
-    "feeType": "Inspection",
-    "feeTypeConfidence": 1,
-    "feeTypeColor": "#6f42c1",
-    "status": "Unknown",
-    "originalText": "My Summary\nPrint Order\n\nPhotos / Docs\n\nRelease\n\nInvoices2\n\nPay Adjuster\n\nReminders0\n\nOffice Notes0\n\nBids / Auction\n\nEmail / Faxes\n\nHistory\n\nDuplicate Case\n\nSkiptracing\n\nComplaints\n\n\n\n\n\n\n\n\nClient  \n\n\nAdd Adjuster  \n\n\nAdjusters 1 \n\n\nUpdates 74 \n\n\nRecovery  \n\n\nForms  \n\n\n\n\n\n\n\n\n\n\n\n\n\n Loading",
-    "page": 1
+    "date": "05/02/2025 01:40 PM",
+    "details": "Please advise if you would like a push to start key made on this vehicle for $250.00\nWE HAVE FULL ACCESS",
+    "amount": 250.0,
+    "amountStr": "$250.00",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  },
+  {
+    "date": "05/02/2025 11:54 AM",
+    "details": "Yes we can cut key, this is a push to start for $250.",
+    "amount": 250.0,
+    "amountStr": "$250",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  },
+  {
+    "date": "05/01/2025 11:10 PM",
+    "details": "DISCLAIMERS\n\nFor Status: Repossessed\n- Flatbed Fee Pre-Approved $150 CONTINGENT on pictures showing that flatbed/dollies were used.\nFor Status: Impound\n- LENDER: Please provide transportation instructions once CR & Pics are complete!",
+    "amount": 150.0,
+    "amountStr": "$150",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
+  },
+  {
+    "date": "05/01/2025 07:26 AM",
+    "details": "DISCLAIMERS\n\n- Please do not recover a unit with major collision damage that may impair its value without prior approval from the Lender.\nFor Status: New from Client\n- Flatbed Fee Pre-Approved $150 CONTINGENT on pictures showing that flatbed/dollies were used.\n- GPS! This Lender utilizes simple GPS links, no login required.\nFor Status: Open\n- Flatbed Fee Pre-Approved $150 CONTINGENT on pictures showing that flatbed/dollies were used.",
+    "amount": 150.0,
+    "amountStr": "$150",
+    "feeType": "Other",
+    "feeTypeConfidence": 0.5,
+    "feeTypeColor": "#858796",
+    "status": "Active",
+    "source": "rdn_data_scraper"
   }
 ]
